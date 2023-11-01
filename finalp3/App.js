@@ -8,29 +8,23 @@ import Home from './src/screens/Home/Home';
 import Menu from './src/components/Menu/Menu';
 
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  console.log("Hola")
+  console.log("En app")
   return (
     <NavigationContainer style={styles.navcontainer}>
     <Stack.Navigator>
     <Stack.Screen name='Register' component={Register} options={ { headerShown: false } }/>
     <Stack.Screen name='Login' component={Login} options={ { headerShown: false } }/>
-    <Stack.Screen name='Menu' component={Menu} options={ { headerShown: false } }/>
+    <Stack.Screen name='Menu' component={Menu} options={ { headerShown: false } }/>  
     </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   navcontainer: {
     flex: 1,
     backgroundColor: '#fff',
