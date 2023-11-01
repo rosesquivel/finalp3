@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {auth } from '../../firebase/config';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 
 
 class Login extends Component {
@@ -30,6 +30,11 @@ class Login extends Component {
             <View style={styles.mainContainer}>        
             <View style={styles.right}>
             <View style={styles.firstBox}>
+            <Image
+                    style={styles.image}
+                    source = {require('/assets/logoAura.png')}
+                    resizeMode= "center"
+                />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
@@ -105,6 +110,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold   '
     },
 
+    image: {
+        height: 80,
+        width: "100%"
+    },
+
     //FOOTER
 
     footerText: {
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
     input:{
         height:37.6,
         width: 268.4,
-        paddingVertical: 15,
+        paddingVertical: 10,
         paddingHorizontal: 10,
         borderWidth:1,
         borderColor: '#ccc',

@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
 import { db, auth } from '../../firebase/config';
 import Post from '../../components/Post/Post';
 
@@ -43,10 +43,9 @@ class Home extends Component {
 
 
     render(){
-        console.log(this.state);
+        console.log("En menu");
         return(
             <View>
-                <Text>HOME</Text>
                 <TouchableOpacity onPress={()=>this.logout()}>
                     <Text>Logout</Text>
                 </TouchableOpacity>

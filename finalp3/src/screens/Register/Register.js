@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 
 class Register extends Component {
     constructor(){
@@ -8,7 +8,9 @@ class Register extends Component {
         this.state={
             email:'',
             username:'',
-            password:''
+            password:'',
+            bio: '',
+            profilePicture: ''
         }
     }
     componentDidMount(){
@@ -21,7 +23,7 @@ class Register extends Component {
         })
     }
 
-    register (email, pass, userName){
+    register (email, pass, userName, Bio, profilePic){
         auth.createUserWithEmailAndPassword(email, pass)
             .then( response => {
                 console.log('Registrado ok', response);
@@ -30,6 +32,8 @@ class Register extends Component {
                 db.collection('users').add({
                     owner: auth.currentUser.email,
                     username: userName,
+                    bio: Bio,
+                    profilePicture: profilePic,
                     createdAt: Date.now(), 
                 })
                 
@@ -45,11 +49,11 @@ class Register extends Component {
         <View style={styles.mainContainer}>        
         <View style={styles.right}>
             <View style={styles.firstBox}>
-{/*                 <Image
+                <Image
                     style={styles.image}
-                    source = {require('../../../assets/logoAura.png')}
+                    source = {require('/assets/logoAura.png')}
                     resizeMode= "center"
-                /> */}
+                />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
@@ -71,6 +75,21 @@ class Register extends Component {
                     keyboardType='default'
                     secureTextEntry={true}
                     value={this.state.password}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text)=>this.setState({bio: text})}
+                    placeholder='Write something about you...'
+                    keyboardType='default'
+                    value={this.state.bio}
+                />
+
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text)=>this.setState({profilePicture: text})}
+                    placeholder='Acá va la foto'
+                    keyboardType='default'
+                    value={this.state.profilePicture}
                 />
 
                 <TouchableOpacity style={styles.button} onPress={()=>this.register(this.state.email, this.state.password, this.state.userName)}>
@@ -132,6 +151,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold   '
     },
 
+    image: {
+        height: 80,
+        width: "100%"
+    },
+
     //FOOTER
 
     footerText: {
@@ -141,7 +165,6 @@ const styles = StyleSheet.create({
     },
 
     //CONFIGURACIONES GENERALES
-
     input:{
         height:37.6,
         width: 268.4,
@@ -152,8 +175,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderRadius: 6,
         marginVertical:10,
-
     },
+
     button:{
         height:37.6,
         width: 268.4,
