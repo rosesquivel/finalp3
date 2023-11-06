@@ -76,7 +76,7 @@ class Register extends Component {
                     secureTextEntry={true}
                     value={this.state.password}
                 />
-                <TextInput
+{/*                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({bio: text})}
                     placeholder='Write something about you...'
@@ -90,7 +90,7 @@ class Register extends Component {
                     placeholder='Acá va la foto'
                     keyboardType='default'
                     value={this.state.profilePicture}
-                />
+                /> */}
 
                 <TouchableOpacity style={styles.button} onPress={()=>this.register(this.state.email, this.state.password, this.state.userName)}>
                     <Text style={styles.textButton}>Register</Text>    
