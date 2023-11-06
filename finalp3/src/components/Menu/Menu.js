@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome, Feather, Ionicons } from '@expo/vector-icons'; 
 
-
+import Profile from '../../screens/Profile/Profile';
 import Home from '../../screens/Home/Home';
 import PostForm from '../../screens/PostForm/PostForm'; 
 
@@ -16,10 +16,13 @@ function Menu (){
             options={{ headerShown: false,
             tabBarIcon: () => <Ionicons name="ios-home-outline" size={24} color="black" />}}/>   
             
-         <Tab.Screen name='New Post' component={PostForm}  
+        <Tab.Screen name='New Post' component={PostForm}  
             options={{ headerShown: false,
             tabBarIcon: () => <Feather name="upload" size={24} color="black" />}}/>              
-        
+        <Tab.Screen name='Profile' component={Profile}  
+            options={{ headerShown: false,
+            tabBarIcon: () => <Feather name="upload" size={24} color="black" />}}/>
+
         </Tab.Navigator>
     )
 }
