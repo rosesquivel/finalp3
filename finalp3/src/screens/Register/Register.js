@@ -31,9 +31,9 @@ class Register extends Component {
                 //Create user collection
                 db.collection('users').add({
                     owner: auth.currentUser.email,
-                    username: userName,
-                    bio: Bio,
-                    profilePicture: profilePic,
+                    username: this.state.username,
+                    bio: this.state.bio,
+                    profilePicture: this.state.profilePicture,
                     createdAt: Date.now(), 
                 })
                 
