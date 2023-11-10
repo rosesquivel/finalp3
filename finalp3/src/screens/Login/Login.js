@@ -85,23 +85,25 @@ const styles = StyleSheet.create({
     },
 
     firstBox:{
+        backgroundColor: '#EEEEEE',
         borderRadius: 6,
         padding: 70,
         marginVertical: 20,
-        marginHorizontal: 600,
+        marginHorizontal: 20,
         borderWidth: 1,
-        borderColor: 'black', 
+        borderColor: '#EEEEEE', 
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     secondBox:{
+        backgroundColor: '#EEEEEE',
         borderRadius: 6,
         padding: 15,
         marginVertical: 5,
-        marginHorizontal: 600,
+        marginHorizontal: 20,
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: '#EEEEEE',
         alignItems: 'center', 
     },
 
@@ -112,7 +114,8 @@ const styles = StyleSheet.create({
 
     image: {
         height: 80,
-        width: "100%"
+        width: "100%",
+        
     },
 
     //FOOTER

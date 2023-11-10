@@ -3,6 +3,7 @@ import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} fr
 import { db, auth } from '../../firebase/config';
 import Post from '../../components/Post/Post';
 
+
 class Home extends Component {
     constructor(){
         super()
@@ -34,11 +35,7 @@ class Home extends Component {
     }
 
 
-    logout(){
-        auth.signOut();
-         //Redirigir al usuario a la home del sitio.
-        // this.props.navigation.navigate('Login')
-    }
+    
 
 
 
@@ -46,15 +43,16 @@ class Home extends Component {
         console.log("En menu");
         return(
             <View>
-                <TouchableOpacity onPress={()=>this.logout()}>
-                    <Text>Logout</Text>
-                </TouchableOpacity>
-
-                <Text>Lista de Posts</Text>
+                
+                <Text style={styles.screenTitle}>Lista de Posts</Text>
                 {
                     this.state.listaPost.length === 0 
                     ?
-                    <Text>Cargando...</Text>
+                    <Image
+                        style={styles.image}
+                        source = {require('/assets/spinning-loading.gif')}
+                        resizeMode= "center"
+                    />
                     :
                     <FlatList 
                         data= {this.state.listaPost}
@@ -68,6 +66,22 @@ class Home extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+    //CONTENEDOR GENERAL
+    screenTitle:{
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginVertical: 10
+    },
+    image: {
+        height: 80,
+        width: "100%",
+        backgroundColor: 'white',
+        borderRadius: 10
+    }
+    
 
+})
 
 export default Home;

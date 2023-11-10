@@ -17,7 +17,8 @@ class PostForm extends Component {
             owner: owner, 
             textoPost: textoPost, 
             createdAt: createdAt,
-            imagen: img
+            likes: [],
+            fotoUrl: img
         })
         .then( res => 
         console.log(res),
@@ -35,6 +36,9 @@ class PostForm extends Component {
     <View style={styles.right}>
             <View style={styles.firstBox}>
                 <Text>New Post</Text>
+                <TouchableOpacity style={styles.button} >
+                    <Text style={styles.textButton}>Take Photo</Text>    
+                </TouchableOpacity>
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({textoPost: text})}
@@ -42,7 +46,7 @@ class PostForm extends Component {
                     keyboardType='default'
                     value={this.state.textoPost}
                     />
-                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, Date.now())}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, Date.now(), null)}>
                     <Text style={styles.textButton}>Post</Text>    
                 </TouchableOpacity>
             </View>
@@ -64,17 +68,20 @@ const styles = StyleSheet.create({
     right:{
         flex: 1,
         justifyContent: 'center',
+        backgroundColor: 'white'
     },
 
     firstBox:{
         borderRadius: 6,
         padding: 70,
         marginVertical: 20,
-        marginHorizontal: 600,
+        marginHorizontal: 20,
         borderWidth: 1,
         borderColor: 'black', 
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#EEEEEE',
+        borderColor:'#EEEEEE'
     },
     //CONFIGURACIONES GENERALES
     input:{

@@ -27,7 +27,11 @@ class Profile extends Component {
         )
     }
 
-    
+    logout(){
+        auth.signOut();
+         //Redirigir al usuario a la home del sitio.
+        // this.props.navigation.navigate('Login')
+    }
 
     render(){
         console.log(this.state);
@@ -40,6 +44,10 @@ class Profile extends Component {
                         keyExtractor={ user => user.id }
                         renderItem={ ({item}) => <Text>Username: {item.data.username}, Owner: {item.data.owner}</Text> }
                     />
+                <TouchableOpacity onPress={()=>this.logout()}>
+                    <Text>Logout</Text>
+                </TouchableOpacity>
+
             </View>
             
         )}

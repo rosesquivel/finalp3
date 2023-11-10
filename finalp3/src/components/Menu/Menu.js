@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Feather, Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome, Feather, Ionicons, AntDesign } from '@expo/vector-icons'; 
 
 import Profile from '../../screens/Profile/Profile';
 import Home from '../../screens/Home/Home';
@@ -18,10 +18,10 @@ function Menu (){
             
         <Tab.Screen name='New Post' component={PostForm}  
             options={{ headerShown: false,
-            tabBarIcon: () => <Feather name="upload" size={24} color="black" />}}/>              
+            tabBarIcon: () => <AntDesign name="pluscircleo" size={24} color="black" />}}/>              
         <Tab.Screen name='Profile' component={Profile}  
             options={{ headerShown: false,
-            tabBarIcon: () => <Feather name="upload" size={24} color="black" />}}/>
+            tabBarIcon: () => <AntDesign name="user" size={24} color="black" />}}/>
 
         </Tab.Navigator>
     )

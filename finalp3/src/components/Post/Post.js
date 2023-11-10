@@ -1,6 +1,7 @@
 import react, { Component } from 'react';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
 import { db, auth } from '../../firebase/config';
+import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 class Post extends Component {
@@ -58,20 +59,20 @@ class Post extends Component {
     render(){
         console.log(this.props);
         return(
-            <View>
-                <Text>Datos del Post</Text>
-                <Text> Email: {this.props.infoPost.datos.owner}</Text>
-                <Text>Texto: {this.props.infoPost.datos.textoPost}</Text>
-                <Text>cantidad de likes: {this.state.cantidadDeLikes}</Text>
+            <View style={styles.unPostContainer}>
+                
+                <Text>{this.props.infoPost.datos.owner}</Text>
+                <Text>{this.props.infoPost.datos.textoPost}</Text>
+                <Text>Likes: {this.state.cantidadDeLikes}</Text>
 
                 {/* If ternario */}
                 {this.state.like ? 
                 <TouchableOpacity onPress={()=>this.unLike()}>
-                    QuitarLike
+                    <AntDesign name="heart" size={24} color="red" />
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={()=>this.likear()}>
-                    Like
+                    <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
                 }
                 
@@ -81,6 +82,20 @@ class Post extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+    //CONTENEDOR GENERAL
+    unPostContainer:{
+        flex: 1,
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        marginHorizontal: 20,
+        padding: 5,
+        marginVertical: 5
+    },
+
+    
+
+})
 
 
 export default Post;
