@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
+import PostInProfile from '../../components/PostInProfile/PostInProfile';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
 
 class Profile extends Component {
     constructor(){
         super()
         this.state={
-            users: []
-        }
+            users: [],
+            listaPost: []
+        }   
     }
     componentDidMount(){
         console.log("En profile")
@@ -22,6 +24,24 @@ class Profile extends Component {
                 this.setState({
                     users: users
                 })
+                })
+            }
+        )
+        db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(
+            posteos => {
+                let postsAMostrar = [];
+
+                posteos.forEach( unPost => {
+                    postsAMostrar.push(
+                        {
+                            id: unPost.id,
+                            datos: unPost.data()
+                        }
+                    )
+                })
+
+                this.setState({
+                    listaPost: postsAMostrar
                 })
             }
         )
@@ -52,6 +72,26 @@ class Profile extends Component {
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
                 </View>
+                <Text style={styles.screenTitle}>My Posts</Text>
+                {
+                    this.state.listaPost.length === 0 
+                    ?
+                    <Image
+                        style={styles.image}
+                        source = {require('/assets/spinning-loading.gif')}
+                        resizeMode= "center"
+                    />
+                    :
+                   
+                    <FlatList 
+                        data= {this.state.listaPost}
+                        keyExtractor={ unPost => unPost.id }
+                        renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
+                        style= {styles.listaPosts}
+                    />
+                    
+                }
+                
             </View>
             
         )}

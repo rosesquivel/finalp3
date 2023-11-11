@@ -20,7 +20,8 @@ class PostForm extends Component {
             textoPost: textoPost, 
             createdAt: createdAt,
             likes: [],
-            fotoUrl: img
+            fotoUrl: img,
+            comments: []
         })
         .then( res => 
         console.log(res),

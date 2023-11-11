@@ -4,13 +4,12 @@ import { db, auth } from '../../firebase/config';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 
-class Post extends Component {
+class PostInProfile extends Component {
     constructor(props){
         super(props)
         this.state={
             like: false,
-            cantidadDeLikes: this.props.infoPost.datos.likes.length,
-            textoComment: ''
+            cantidadDeLikes: this.props.infoPost.datos.likes.length
         }
     }
 
@@ -22,7 +21,6 @@ class Post extends Component {
             })
         }
     }
-
 
 
    likear(){
@@ -57,14 +55,12 @@ class Post extends Component {
     .catch( e => console.log(e))
    }
    
-   guardarComment(){
+   deletePost(){
     db.collection('posts').doc(this.props.infoPost.id).update({
-        comments: firebase.firestore.FieldValue.arrayUnion(this.state.textoComment)
+        posts: firebase.firestore.FieldValue.arrayRemove(this.props.infoPost.id)
     })
     .then( res => {
-        this.setState({
-            textoComment: ''
-        })
+        console.log('Eliminado');
     })
     .catch( e => console.log(e))
    }
@@ -73,8 +69,6 @@ class Post extends Component {
         console.log(this.props);
         return(
             <View style={styles.unPostContainer}>
-                
-                <Text>{this.props.infoPost.datos.owner}</Text>
                 <Image
                     style={styles.image}
                     source = {this.props.infoPost.datos.fotoUrl}
@@ -83,7 +77,7 @@ class Post extends Component {
                 <Text>{this.props.infoPost.datos.textoPost}</Text>
                 <Text>Likes: {this.state.cantidadDeLikes}</Text>
 
-                {/* If ternario */}
+
                 {this.state.like ? 
                 <TouchableOpacity onPress={()=>this.unLike()}>
                     <AntDesign name="heart" size={24} color="red" />
@@ -93,24 +87,9 @@ class Post extends Component {
                     <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
                 }
-
-                <FlatList 
-                        data= {this.props.infoPost.datos.comments}
-                        keyExtractor={ comment => comment }
-                        renderItem={ ({comment}) => <Text>{comment}</Text> }
-                    />
-                <View style={styles.commentSection}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text)=>this.setState({textoComment: text})}
-                    placeholder='Comment...'
-                    keyboardType='default'
-                    value={this.state.textoComment}
-                />
-                {this.state.textoComment === "" ? null : <TouchableOpacity style={styles.button} onPress={ () => this.guardarComment()}>
-                   <Text style={styles.textButton} >Add</Text>
-                </TouchableOpacity>}
-                </View>
+                <TouchableOpacity style={styles.button} onPress={()=>this.deletePost()}>
+                    <Text style={styles.textButton}>Delete NO ANDA</Text>
+                </TouchableOpacity>
                 
             </View>
         )
@@ -127,45 +106,14 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 5
     },
-    commentSection:{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: "flex-start",
-        marginVertical: 10
-    },
+
     image: {
         height: 80,
         width: "100%",
     
     },
-    input:{
-        height:25,
-        width: '80%',
-        borderWidth:1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        borderRadius: 6,
 
-    },
-    button:{
-        height:25,
-        width: "15%",
-        backgroundColor:'#46627f',
-        marginLeft: "5%",
-        textAlign: 'center',
-        borderRadius:4, 
-        borderWidth:1,
-        borderStyle: 'solid',
-        borderColor: '#46627f',
-    },
-    textButton:{
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: 'bold'
-
-    },
 })
 
 
-export default Post;
+export default PostInProfile;
