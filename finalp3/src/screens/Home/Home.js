@@ -54,11 +54,14 @@ class Home extends Component {
                         resizeMode= "center"
                     />
                     :
+                   
                     <FlatList 
                         data= {this.state.listaPost}
                         keyExtractor={ unPost => unPost.id }
                         renderItem={ ({item}) => <Post infoPost = { item } /> }
+                        style= {styles.listaPosts}
                     />
+                    
                 }
                 
             </View>
@@ -81,6 +84,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         marginHorizontal: 100
+    },
+    listaPosts: {
+        overflow: true
     }
     
 

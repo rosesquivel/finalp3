@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
+import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, Image} from 'react-native';
 import { db, auth } from '../../firebase/config';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
@@ -62,6 +62,11 @@ class Post extends Component {
             <View style={styles.unPostContainer}>
                 
                 <Text>{this.props.infoPost.datos.owner}</Text>
+                <Image
+                    style={styles.image}
+                    source = {this.props.infoPost.datos.fotoUrl}
+                    resizeMode= "center"
+                />
                 <Text>{this.props.infoPost.datos.textoPost}</Text>
                 <Text>Likes: {this.state.cantidadDeLikes}</Text>
 
@@ -93,7 +98,11 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
 
+    image: {
+        height: 80,
+        width: "100%",
     
+    },
 
 })
 
