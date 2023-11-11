@@ -44,7 +44,7 @@ class Home extends Component {
         return(
             <View>
                 
-                <Text style={styles.screenTitle}>Lista de Posts</Text>
+                <Text style={styles.screenTitle}>Posts</Text>
                 {
                     this.state.listaPost.length === 0 
                     ?
@@ -75,10 +75,12 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     image: {
+        alignSelf: 'center',
         height: 80,
-        width: "100%",
+        width: "20%",
         backgroundColor: 'white',
-        borderRadius: 10
+        borderRadius: 10,
+        marginHorizontal: 100
     }
     
 

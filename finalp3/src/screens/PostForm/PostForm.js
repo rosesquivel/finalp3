@@ -34,8 +34,8 @@ class PostForm extends Component {
     render(){
         return(      
     <View style={styles.right}>
+        <Text style={styles.screenTitle}>New Post</Text>
             <View style={styles.firstBox}>
-                <Text>New Post</Text>
                 <TouchableOpacity style={styles.button} >
                     <Text style={styles.textButton}>Take Photo</Text>    
                 </TouchableOpacity>
@@ -60,12 +60,19 @@ class PostForm extends Component {
 }
 
 const styles = StyleSheet.create({
+    screenTitle:{
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginVertical: 10
+    },
     formContainer:{
         paddingHorizontal:10,
         marginTop: 20,
     },
 
     right:{
+        alignContent: 'flex-start',
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white'
