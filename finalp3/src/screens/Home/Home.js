@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 import { db, auth } from '../../firebase/config';
 import Post from '../../components/Post/Post';
 
@@ -8,7 +8,8 @@ class Home extends Component {
     constructor(){
         super()
         this.state={
-            listaPost: []
+            listaPost: [],
+            searchText: ''
         }
     }
 
@@ -35,16 +36,15 @@ class Home extends Component {
     }
 
 
-    
-
 
 
     render(){
         console.log("En menu");
         return(
-            <View>
+            <ScrollView>
                 
                 <Text style={styles.screenTitle}>Posts</Text>
+                
                 {
                     this.state.listaPost.length === 0 
                     ?
@@ -58,13 +58,13 @@ class Home extends Component {
                     <FlatList 
                         data= {this.state.listaPost}
                         keyExtractor={ unPost => unPost.id }
-                        renderItem={ ({item}) => <Post infoPost = { item } /> }
+                        renderItem={ ({item}) => <Post infoPost = { item } navigate={this.props.navigation.navigate}/> }
                         style= {styles.listaPosts}
                     />
                     
                 }
                 
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -77,6 +77,43 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginVertical: 10
     },
+    searchContainer:{
+        flex: 1,
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        marginHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        paddingVertical: 15,
+        alignItems: 'center',
+        marginBottom: 25
+    },
+    input:{
+        height:25,
+        width: '65%',
+        borderWidth:1,
+        borderColor: '#ccc',
+        borderStyle: 'solid',
+        borderRadius: 6,
+        
+    },
+    button:{
+        height:25,
+        width: "20%",
+        backgroundColor:'#46627f',
+        marginLeft: "5%",
+        textAlign: 'center',
+        borderRadius:4, 
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor: '#46627f',
+    },
+    textButton:{
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
     image: {
         alignSelf: 'center',
         height: 80,
@@ -86,7 +123,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 100
     },
     listaPosts: {
-        overflow: true
+        
     }
     
 

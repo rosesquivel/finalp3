@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
 import PostInProfile from '../../components/PostInProfile/PostInProfile';
-import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 
 class Profile extends Component {
     constructor(){
@@ -59,7 +59,7 @@ class Profile extends Component {
     render(){
         console.log(this.state);
         return(
-            <View>
+            <ScrollView>
                 <Text style={styles.screenTitle}>Profile</Text>
                 <View style={styles.mainContainer}>
                 <Text>{auth.currentUser.email}</Text>
@@ -73,6 +73,7 @@ class Profile extends Component {
                 </TouchableOpacity>
                 </View>
                 <Text style={styles.screenTitle}>My Posts</Text>
+                
                 {
                     this.state.listaPost.length === 0 
                     ?
@@ -92,7 +93,7 @@ class Profile extends Component {
                     
                 }
                 
-            </View>
+            </ScrollView>
             
         )}
         }

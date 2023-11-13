@@ -56,9 +56,12 @@ class PostForm extends Component {
                     keyboardType='default'
                     value={this.state.textoPost}
                     />
-                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, Date.now(), this.state.fotoUrl)}>
+                {(this.state.fotoUrl === '' 
+                ? <Text>Requiere foto para postear</Text>
+                : <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, Date.now(), this.state.fotoUrl)}>
                     <Text style={styles.textButton}>Post</Text>    
-                </TouchableOpacity>
+                </TouchableOpacity>)}
+                
             </View>
     
     </View>

@@ -57,7 +57,7 @@ class PostInProfile extends Component {
    
    deletePost(){
     db.collection('posts').doc(this.props.infoPost.id).update({
-        posts: firebase.firestore.FieldValue.arrayRemove(this.props.infoPost.id)
+        posts: firebase.firestore.FieldValue.arrayRemove(this.props.infoPost.datos, this.props.infoPost.id)
     })
     .then( res => {
         console.log('Eliminado');
@@ -66,7 +66,7 @@ class PostInProfile extends Component {
    }
 
     render(){
-        console.log(this.props);
+        console.log('Test', this.props.infoPost);
         return(
             <View style={styles.unPostContainer}>
                 <Image

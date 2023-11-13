@@ -59,7 +59,7 @@ class Post extends Component {
    
    guardarComment(){
     db.collection('posts').doc(this.props.infoPost.id).update({
-        comments: firebase.firestore.FieldValue.arrayUnion(this.state.textoComment)
+        comments: firebase.firestore.FieldValue.arrayUnion({text: this.state.textoComment, userEmail: auth.currentUser.email})
     })
     .then( res => {
         this.setState({
@@ -67,6 +67,10 @@ class Post extends Component {
         })
     })
     .catch( e => console.log(e))
+   }
+
+   irAComments(){
+    return (this.props.navigation.navigate('Comments'))
    }
 
     render(){
@@ -82,7 +86,9 @@ class Post extends Component {
                 />
                 <Text>{this.props.infoPost.datos.textoPost}</Text>
                 <Text>Likes: {this.state.cantidadDeLikes}</Text>
-
+                <TouchableOpacity onPress={()=>this.props.navigate('Comments')}>
+                    <Text>{(this.props.infoPost.datos.comments ? this.props.infoPost.datos.comments.length : <Text>No</Text>)} comments</Text>
+                </TouchableOpacity>
                 {/* If ternario */}
                 {this.state.like ? 
                 <TouchableOpacity onPress={()=>this.unLike()}>
@@ -93,12 +99,13 @@ class Post extends Component {
                     <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
                 }
-
-                <FlatList 
+                {this.props.infoPost.datos.comments && this.props.infoPost.datos.comments.length  > 0 ?
+                 <FlatList 
                         data= {this.props.infoPost.datos.comments}
-                        keyExtractor={ comment => comment }
-                        renderItem={ ({comment}) => <Text>{comment}</Text> }
-                    />
+                        keyExtractor={ key => key.text+key.user }
+                        renderItem={ (comment) =><Text>{comment.item.text}</Text> }
+                    /> : null}
+                
                 <View style={styles.commentSection}>
                 <TextInput
                     style={styles.input}
@@ -127,6 +134,7 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 5
     },
+    lista:{},
     commentSection:{
         flex: 1,
         flexDirection: 'row',
