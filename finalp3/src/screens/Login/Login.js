@@ -12,6 +12,17 @@ class Login extends Component {
         }
     }
 
+    componentDidMount(){
+        console.log("En login")
+        auth.onAuthStateChanged( user => {
+            if(user){
+                this.setState({email: auth.currentUser.email})
+                this.setState({password: auth.currentUser.password})
+                this.login(this.state.email,this.state.password)
+            }
+        })
+    }
+
     login (email, pass){
         auth.signInWithEmailAndPassword(email, pass)
             .then( response => {

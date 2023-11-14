@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import validator from 'validator';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 class Register extends Component {
     constructor(){
         super()
         this.state={
+            isChecked: false,
+            empty: false,
+            length: false,
+            format: false,
+            used: false,
             email:'',
             username:'',
             password:'',
@@ -23,7 +30,38 @@ class Register extends Component {
         })
     }
 
-    register (email, pass, userName, Bio, profilePic){
+    isError(email,password, username) {
+        if (email == '' || username =='' || password == ''){
+            this.setState({empty: true});
+            this.setState({username:''})
+            this.setState({email:''})
+            this.setState({username:''})
+        }
+       
+        if (password.length < 6) {
+            this.setState({ length: true });  
+            this.setState({password:''})
+          }
+        
+        //Permite verificar que el mail tenga el formato adecuado
+        if(!validator.isEmail(email)){
+           this.setState({format:true})
+           this.setState({email:''}) 
+        }
+
+        //Verificar si el mail ya está en uso
+        if  (auth.fetchSignInMethodsForEmail(email)){
+            this.setState({used:true})
+            this.setState({email:''}) 
+        }
+    
+        //Si pasa todas las verificaciones
+        this.register(email, password, username)
+      }
+      
+    
+
+    register (email, pass, username, Bio, profilePic){
         auth.createUserWithEmailAndPassword(email, pass)
             .then( response => {
                 console.log('Registrado ok', response);
@@ -44,6 +82,13 @@ class Register extends Component {
             })
     }
 
+    //Remember me
+    checkBox = () => {
+        this.setState((prevState) => ({
+            isChecked: !prevState.isChecked,
+        }));
+    };
+
     render(){
         return(
         <View style={styles.mainContainer}>        
@@ -56,46 +101,72 @@ class Register extends Component {
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={(text)=>this.setState({email: text})}
-                    placeholder='user@gmail.com'
+                    onChangeText={(text) =>{this.setState({email: text})}}
+                    blurOnSubmit = {true}
+                    placeholder = 'user@email.com'
                     keyboardType='email-address'
                     value={this.state.email}
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={(text)=>this.setState({username: text})}
+                    onChangeText={(text) =>{this.setState({username: text})}}
+                    blurOnSubmit = {true}
                     placeholder='username'
                     keyboardType='default'
                     value={this.state.username}
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={(text)=>this.setState({password: text})}
+                    onChangeText={(text) =>{this.setState({password: text})}}
+                    minLength={6}
+                    blurOnSubmit = {true}
                     placeholder='password'
                     keyboardType='default'
                     secureTextEntry={true}
                     value={this.state.password}
                 />
-{/*                 <TextInput
-                    style={styles.input}
-                    onChangeText={(text)=>this.setState({bio: text})}
-                    placeholder='Write something about you...'
-                    keyboardType='default'
-                    value={this.state.bio}
-                />
 
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text)=>this.setState({profilePicture: text})}
-                    placeholder='Acá va la foto'
-                    keyboardType='default'
-                    value={this.state.profilePicture}
-                /> */}
+                {/* MENSAJES DE ERROR */}
+                 {this.state.empty && (
+                    <Text>Please fill out all the fields</Text>
+                 )}
+                 {this.state.length && (
+                    <Text>Your password should be at least 6 characters</Text>
+                 )}
 
-                <TouchableOpacity style={styles.button} onPress={()=>this.register(this.state.email, this.state.password, this.state.userName)}>
+                {this.state.format && (
+                    <Text>Please enter a valid email address</Text>
+                 )}
+
+                {(this.state.used) &&(
+                    <Text>The email account is already in use! Pick another one</Text>
+                 )} 
+
+                <TouchableOpacity style={styles.button} onPress={() => this.isError(this.state.email, this.state.password, this.state.username)}>
                     <Text style={styles.textButton}>Register</Text>    
                 </TouchableOpacity>
+
+                
+              
+                { this.state.isChecked ?(
+                <TouchableOpacity onPress={this.checkBox} style={styles.checkboxContainer}>
+                <AntDesign
+                    name='checksquare'
+                    size={24}
+                    color= 'black'
+                />
+                <Text style={styles.checkboxLabel}>Remembered!</Text>
+                </TouchableOpacity>)
+                : 
+               ( <TouchableOpacity onPress={this.checkBox} style={styles.checkboxContainer}>
+                <FontAwesome5 name="square" size={24} color="black" />
+                <Text style={styles.checkboxLabel}>Remember me!</Text>
+                </TouchableOpacity>)}
+            
             </View>
+
+            
+            
             
             <View style={styles.secondBox}>
                 <Text>Already have an account?</Text>
@@ -157,6 +228,17 @@ const styles = StyleSheet.create({
         height: 80,
         width: "100%",
     
+    },
+
+    //checkbox
+    checkboxContainer: {
+        padding: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkboxLabel: {
+        marginLeft: 8,
+        fontSize: 13,
     },
 
     //FOOTER

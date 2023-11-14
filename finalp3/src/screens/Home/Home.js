@@ -15,7 +15,9 @@ class Home extends Component {
 
     componentDidMount(){
         //Traer datos
-        db.collection('posts').onSnapshot(
+        db.collection('posts').
+        orderBy('createdAt', 'desc')
+        .onSnapshot(
             posteos => {
                 let postsAMostrar = [];
 
@@ -41,10 +43,8 @@ class Home extends Component {
     render(){
         console.log("En menu");
         return(
-            <ScrollView>
-                
+            <ScrollView> 
                 <Text style={styles.screenTitle}>Posts</Text>
-                
                 {
                     this.state.listaPost.length === 0 
                     ?
@@ -60,8 +60,7 @@ class Home extends Component {
                         keyExtractor={ unPost => unPost.id }
                         renderItem={ ({item}) => <Post infoPost = { item } navigate={this.props.navigation.navigate}/> }
                         style= {styles.listaPosts}
-                    />
-                    
+                    />   
                 }
                 
             </ScrollView>

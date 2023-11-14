@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Feather, Ionicons, AntDesign } from '@expo/vector-icons'; 
+import { FontAwesome, Feather, Ionicons, AntDesign} from '@expo/vector-icons'; 
 
 import Profile from '../../screens/Profile/Profile';
 import Home from '../../screens/Home/Home';
@@ -22,12 +22,12 @@ function Menu (){
             tabBarIcon: () => <AntDesign name="pluscircleo" size={24} color="black" />}}/>         
         <Tab.Screen name='Search' component={SearchResults}  
             options={{ headerShown: false,
-            tabBarIcon: () => <AntDesign name="user" size={24} color="black" />}}/>     
+            tabBarIcon: () => <Feather name="search" size={24} color="black" />}}/>     
         <Tab.Screen name='Profile' component={Profile}  
             options={{ headerShown: false,
             tabBarIcon: () => <AntDesign name="user" size={24} color="black" />}}/>
-
         </Tab.Navigator>
+        
     )
 }
 

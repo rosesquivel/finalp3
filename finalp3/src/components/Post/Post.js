@@ -15,6 +15,7 @@ class Post extends Component {
     }
 
     componentDidMount(){
+        console.log('En post')
         //Indicar si el post ya está likeado o no.
         if(this.props.infoPost.datos.likes.includes(auth.currentUser.email)){
             this.setState({
@@ -69,16 +70,20 @@ class Post extends Component {
     .catch( e => console.log(e))
    }
 
-   irAComments(){
+ /*   irAComments(){
     return (this.props.navigation.navigate('Comments'))
-   }
+   } */
+ 
 
+   
     render(){
         console.log(this.props);
         return(
             <View style={styles.unPostContainer}>
-                
-                <Text>{this.props.infoPost.datos.owner}</Text>
+                {/* ESTÁ MAL RENDERIZADO, VER CÓMO MANDARLO AL PERFIL DEL USUARIO!! */}
+                 <TouchableOpacity onPress={()=>this.props.navigate('Profile', )}>
+                 <Text>{this.props.infoPost.datos.owner}</Text>
+                </TouchableOpacity>
                 <Image
                     style={styles.image}
                     source = {this.props.infoPost.datos.fotoUrl}
