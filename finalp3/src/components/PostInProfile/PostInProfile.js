@@ -14,6 +14,7 @@ class PostInProfile extends Component {
     }
 
     componentDidMount(){
+        console.log("En PostInProfile")
         //Indicar si el post ya está likeado o no.
         if(this.props.infoPost.datos.likes.includes(auth.currentUser.email)){
             this.setState({
@@ -56,11 +57,9 @@ class PostInProfile extends Component {
    }
    
    deletePost(){
-    db.collection('posts').doc(this.props.infoPost.id).update({
-        posts: firebase.firestore.FieldValue.arrayRemove(this.props.infoPost.datos, this.props.infoPost.id)
-    })
+    db.collection('posts').doc(this.props.infoPost.id).delete()
     .then( res => {
-        console.log('Eliminado');
+        console.log('Post eliminado');
     })
     .catch( e => console.log(e))
    }
@@ -87,9 +86,13 @@ class PostInProfile extends Component {
                     <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
                 }
+
+               
+            {auth.currentUser.email == this.props.infoPost.datos.owner && 
                 <TouchableOpacity style={styles.button} onPress={()=>this.deletePost()}>
-                    <Text style={styles.textButton}>Delete NO ANDA</Text>
+                    <Text style={styles.textButton}>Delete post</Text>
                 </TouchableOpacity>
+                 } 
                 
             </View>
         )
