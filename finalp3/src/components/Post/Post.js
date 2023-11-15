@@ -10,6 +10,7 @@ class Post extends Component {
         this.state = {
             like: false,
             cantidadDeLikes: this.props.infoPost.datos.likes.length,
+            comments: this.props.infoPost.datos.comments.slice(0,4),
         }
     }
 
@@ -57,20 +58,6 @@ class Post extends Component {
             .catch(e => console.log(e))
     }
 
-    // guardarComment() {
-    //     db.collection('posts').doc(this.props.infoPost.id).update({
-    //         comments: firebase.firestore.FieldValue.arrayUnion({ text: this.state.textoComment, userEmail: auth.currentUser.email })
-    //     })
-    //         .then(res => {
-    //             this.setState({
-    //                 textoComment: ''
-    //             })
-    //         })
-    //         .catch(e => console.log(e))
-    // }
-
-
-
 
     render() {
         console.log(this.props);
@@ -99,7 +86,16 @@ class Post extends Component {
                         <AntDesign name="hearto" size={24} color="black" />
                     </TouchableOpacity>
                 }
-                
+                {this.props.infoPost.datos.comments && this.props.infoPost.datos.comments.length > 0 ?
+                    <FlatList
+                        data={this.state.comments}
+                        keyExtractor={key => key.text + key.user}
+                        renderItem={(comment) => <View  style={styles.unPostContainer}><TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: comment.item.userEmail, navigation: this.props.navigation})}
+                        initialNumToRender={4}>
+                        <Text style={styles.commenterEmail}>{comment.item.userEmail}:</Text>
+                    </TouchableOpacity>
+                    <Text>{comment.item.text}</Text></View>}
+                    /> : null}
 
             </View>
         )

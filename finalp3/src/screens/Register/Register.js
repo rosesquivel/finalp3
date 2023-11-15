@@ -35,7 +35,7 @@ class Register extends Component {
             this.setState({empty: true});
             this.setState({username:''})
             this.setState({email:''})
-            this.setState({username:''})
+            this.setState({password:''})
         }
        
         if (password.length < 6) {

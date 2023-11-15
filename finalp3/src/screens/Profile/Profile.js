@@ -47,10 +47,6 @@ class Profile extends Component {
         )
     }
 
-    edit(){
-        console.log('En editProfile')
-    }
-
     logout(){
         auth.signOut()
         .then(() => {
@@ -76,7 +72,7 @@ class Profile extends Component {
                 <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=>this.edit()}>
+                <TouchableOpacity style={styles.button} onPress={()=> this.props.navigation.navigate('EditProfile', { userData: this.state.users,navigation: this.props.navigation.navigate })}>
                     <Text style={styles.textButton}>Edit</Text>
                 </TouchableOpacity>
                 <Text style={styles.screenTitle}>My Posts</Text>
