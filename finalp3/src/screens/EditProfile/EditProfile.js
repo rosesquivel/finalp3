@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
 import PostInProfile from '../../components/PostInProfile/PostInProfile';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
+import MyCamera from '../../components/MyCamera/MyCamera';
 
 class EditProfile extends Component {
     constructor(){
         super()
         this.state={
             users: [],
-            listaPost: []
+            listaPost: [],
+            fotoUrl: ''
         }   
     }
     componentDidMount(){
@@ -47,6 +49,13 @@ class EditProfile extends Component {
         )
     }
 
+    traerUrlDeFoto(url){
+        this.setState({
+            fotoUrl:url
+        })
+    }
+    
+
    
 
     render(){
@@ -54,6 +63,8 @@ class EditProfile extends Component {
             <View style={styles.mainContainer}>        
             <View style={styles.right}>
                 <View style={styles.firstBox}>
+                
+                    <MyCamera style={styles.camera}   traerUrlDeFoto = {url=>this.traerUrlDeFoto(url)}/>
                 
                     <TextInput
                         style={styles.input}
