@@ -47,6 +47,10 @@ class Profile extends Component {
         )
     }
 
+    edit(){
+        console.log('En editProfile')
+    }
+
     logout(){
         auth.signOut()
         .then(() => {
@@ -68,10 +72,13 @@ class Profile extends Component {
                         keyExtractor={ user => user.id }
                         renderItem={ ({item}) => <Text>Username: {item.data.username}</Text> }
                     />
+                </View>
                 <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={styles.button} onPress={()=>this.edit()}>
+                    <Text style={styles.textButton}>Edit</Text>
+                </TouchableOpacity>
                 <Text style={styles.screenTitle}>My Posts</Text>
                 
                 {

@@ -79,8 +79,12 @@ class OtherProfile extends Component {
                         renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
                         style= {styles.listaPosts}
                     />
-                    
+
                 }
+
+                <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
+                    <Text style={styles.textButton}>Home</Text>{/* ver si existe styles Text button, lo saque de profile */}
+                </TouchableOpacity>
                 
             </ScrollView>
             
