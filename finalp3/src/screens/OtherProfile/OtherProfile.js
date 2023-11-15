@@ -5,8 +5,8 @@ import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, Sc
 import firebase from 'firebase';
 
 class OtherProfile extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             users: [],
             listaPost: []
@@ -53,7 +53,9 @@ class OtherProfile extends Component {
         console.log(this.state);
         return(
             <ScrollView>
-              
+                <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Home')}>
+                    <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
+                </TouchableOpacity>
                 <View style={styles.mainContainer}>
                 <Text style={styles.screenTitle}>{this.props.route.params.userData}'s profile</Text>
                 <FlatList 
@@ -82,9 +84,7 @@ class OtherProfile extends Component {
 
                 }
 
-                <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
-                    <Text style={styles.textButton}>Home</Text>{/* ver si existe styles Text button, lo saque de profile */}
-                </TouchableOpacity>
+                
                 
             </ScrollView>
             
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     button:{
-        alignSelf: 'flex-end',
+        alignSelf: 'flex-start',
         height:30,
         width: 150,
         backgroundColor:'#46627f',
