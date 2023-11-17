@@ -35,20 +35,39 @@ class SearchResults extends Component {
         )
     }
 
-    searchUsers(searchText){
+  /*   searchUsers(searchText){
       this.state.todosUsers.forEach( unUser => {
         if (searchText.length==0){
             this.setState({
                 usersFiltrados: []
             })
         }
+        // Para no duplicar usuarios en los resultados:
         if (unUser.datos.owner.includes(searchText) ) {
             if(this.state.usersFiltrados.includes(unUser))
             {null}
             else{this.state.usersFiltrados.push(unUser)}
         }
       })
-    }
+    } */
+
+    searchUsers(searchText){
+        let nuevaLista = []
+        for (let i = 0; i < this.state.todosUsers.length; i++) {
+            if (this.state.todosUsers[i].datos.owner.includes(searchText) ) {
+                // IF Para no duplicar usuarios en resultados:
+                if(this.state.usersFiltrados.includes(this.state.todosUsers[i]))
+                {null}
+                else{nuevaLista.push(this.state.todosUsers[i])}
+            }
+            if (searchText.length==0){
+                nuevaLista = []
+            }
+        }
+        this.setState({
+            usersFiltrados: nuevaLista
+        })
+      }
 
 
 
@@ -73,7 +92,7 @@ class SearchResults extends Component {
                 {
                     this.state.usersFiltrados.length === 0 
                     ?
-                    <Text> Esperando busqueda</Text>
+                    <Text>No results</Text>
                     :
                    
                     <FlatList 
