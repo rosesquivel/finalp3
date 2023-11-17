@@ -75,6 +75,7 @@ class SearchResults extends Component {
 
         console.log(this.state.todosUsers);
         console.log(this.state.usersFiltrados);
+        console.log(this.state.searchText);
         return(
             <ScrollView>
                 
@@ -82,8 +83,8 @@ class SearchResults extends Component {
                 <View style={styles.searchContainer}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={(text)=> (this.searchUsers(text), this.setState({searchText: text}))}
-                    placeholder='Search user'
+                    onChangeText={(text)=> (this.searchUsers(text), this.setState({searchText: text.toLowerCase()}))}
+                    placeholder='Search email'
                     keyboardType='default'
                     value={this.state.searchText}>
                 </TextInput>
@@ -92,13 +93,15 @@ class SearchResults extends Component {
                 {
                     this.state.usersFiltrados.length === 0 
                     ?
-                    <Text>No results</Text>
+                    <Text style={styles.noResults}>No results</Text>
                     :
                    
                     <FlatList 
                         data= {this.state.usersFiltrados}
                         keyExtractor={ unUser => unUser.id }
-                        renderItem={ ({item}) => <Text>{item.datos.owner}</Text> }
+                        renderItem={ ({item}) => <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: item.datos.owner, navigation: this.props.navigation })}>
+                        <Text style={styles.unPostContainer}>{item.datos.owner}</Text>
+                    </TouchableOpacity> }
                         style= {styles.listaPosts}
                     />
                     
@@ -125,16 +128,35 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         paddingVertical: 15,
         alignItems: 'center',
-        marginBottom: 25
+        marginBottom: 25,
     },
     input:{
         height:25,
-        width: '65%',
+        width: '80%',
         borderWidth:1,
         borderColor: '#ccc',
         borderStyle: 'solid',
         borderRadius: 6,
         
+    },
+    unPostContainer: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        marginHorizontal: 20,
+        padding: 5,
+        marginVertical: 5,
+        fontWeight: 'bold'
+    },
+    noResults: {
+        marginHorizontal: 20,
+        fontSize: 15,
+        backgroundColor: '#F00',
+        borderRadius: 6,
+        color: '#800',
+        width: 200,
+        alignSelf: 'center',
+        textAlign: 'center'
     },
 
 })

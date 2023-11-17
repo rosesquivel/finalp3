@@ -9,7 +9,8 @@ class OtherProfile extends Component {
         super(props)
         this.state={
             users: [],
-            listaPost: []
+            listaPost: [],
+            cargandoPosts: true
         }   
     }
     componentDidMount(){
@@ -56,18 +57,18 @@ class OtherProfile extends Component {
                 <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Home')}>
                     <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
                 </TouchableOpacity>
-                <View style={styles.mainContainer}>
-                <Text style={styles.screenTitle}>{this.props.route.params.userData}'s profile</Text>
+                
+                <Text style={styles.screenTitle}>{this.props.route.params.userData}</Text>
                 <FlatList 
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <Text>Username: {item.data.username}</Text> }
-                        style= {styles.listaPosts}
+                        renderItem={ ({item}) => <View><Text>Username: {item.data.username}</Text><Text>Bio: {item.data.bio}</Text></View> }
+                        style= {styles.datosPerfil}
                     />  
-                </View>
+                
                 <Text style={styles.screenTitle}>Posts</Text>
-                {
-                    this.state.listaPost.length === 0 
+                
+                {this.state.listaPost.length === 0 
                     ?
                     <Image
                         style={styles.image}
@@ -81,7 +82,6 @@ class OtherProfile extends Component {
                         renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
                         style= {styles.listaPosts}
                     />
-
                 }
 
                 
@@ -96,8 +96,16 @@ const styles = StyleSheet.create({
     screenTitle: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginLeft: 20,
-        marginVertical: 10
+        marginHorizontal: 20,
+        marginVertical: 10,
+        paddingLeft: 15
+    },
+    datosPerfil:{
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        marginHorizontal: 20,
+        padding: 5,
+        marginVertical: 5,
     },
     image: {
         alignSelf: 'center',
@@ -116,20 +124,16 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     button:{
-        alignSelf: 'flex-start',
-        height:30,
-        width: 150,
-        backgroundColor:'#46627f',
-        paddingHorizontal: 10,
-        paddingVertical: 6,
+        height: 25,
+        width: "15%",
+        backgroundColor: '#46627f',
+        marginLeft: "5%",
         textAlign: 'center',
-        borderRadius:4, 
-        borderWidth:1,
+        borderRadius: 4,
+        borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#46627f',
-        marginTop: 20,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 15
     },
     textButton:{
         color: '#fff',

@@ -60,15 +60,16 @@ class Profile extends Component {
         console.log(this.state);
         return(
             <ScrollView>
-                <Text style={styles.screenTitle}>Profile</Text>
-                <View style={styles.mainContainer}>
-                <Text>{auth.currentUser.email}</Text>
+                <Text style={styles.screenTitle}>My Profile</Text>
+               
                 <FlatList 
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <Text>Username: {item.data.username}</Text> }
+                        renderItem={ ({item}) => <View><Text>Username: {item.data.username}</Text><Text>Bio: {item.data.username}</Text></View>
+                        }
+                        style={styles.datosPerfil}
                     />
-                </View>
+                
                 <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
@@ -117,13 +118,21 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 100
     },
+    datosPerfil:{
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        marginHorizontal: 20,
+        padding: 5,
+        marginVertical: 5,
+    },
     mainContainer:{
         flex: 1,
         backgroundColor: '#ffffff',
         borderRadius: 6,
         marginHorizontal: 20,
         padding: 5,
-        marginVertical: 5
+        marginVertical: 5,
+        height: 100
     },
     button:{
         alignSelf: 'flex-end',
