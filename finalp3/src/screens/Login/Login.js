@@ -15,6 +15,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      errorMessage: ''
     };
   }
 
@@ -38,6 +39,9 @@ class Login extends Component {
       })
       .catch((error) => {
         //Cuando Firebase responde con un error.
+        this.setState({
+          errorMessage: 'Invalid login!'
+        })
         console.log(error);
       });
   }
@@ -55,18 +59,19 @@ class Login extends Component {
             <TextInput
               style={styles.input}
               onChangeText={(text) => this.setState({ email: text })}
-              placeholder="user@gmail.com"
+              placeholder="Email"
               keyboardType="email-address"
               value={this.state.email}
             />
             <TextInput
               style={styles.input}
               onChangeText={(text) => this.setState({ password: text })}
-              placeholder="password"
+              placeholder="Password"
               keyboardType="default"
               secureTextEntry={true}
               value={this.state.password}
             />
+            {this.state.errorMessage !== '' ? <Text style={styles.errorBox}>Invalid login!</Text> : null}
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.login(this.state.email, this.state.password)}
@@ -128,7 +133,14 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
     alignItems: "center",
   },
-
+  errorBox:{
+    backgroundColor: '#ffc4c4',
+    borderRadius: 6,
+    marginTop: 5,
+    color: 'red',
+    width: '100%',
+    textAlign: 'center'
+},
   loginText: {
     color: "#46627f",
     fontWeight: "bold   ",

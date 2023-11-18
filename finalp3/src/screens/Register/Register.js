@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
-import validator from 'validator';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 class Register extends Component {
@@ -17,7 +16,8 @@ class Register extends Component {
             username:'',
             password:'',
             bio: '',
-            profilePicture: ''
+            profilePicture: '',
+            errorMessage: ''
         }
     }
     componentDidMount(){
@@ -37,27 +37,11 @@ class Register extends Component {
             this.setState({username:''})
             this.setState({email:''})
             this.setState({password:''})
-        }
-       
-        if (password.length < 6) {
-            this.setState({ length: true });  
-            this.setState({password:''})
-          }
         
-        //Permite verificar que el mail tenga el formato adecuado
-        if(!validator.isEmail(email)){
-           this.setState({format:true})
-           this.setState({email:''}) 
-        }
-
-        //Verificar si el mail ya está en uso
-        if  (auth.fetchSignInMethodsForEmail(email)){
-            this.setState({used:true})
-            this.setState({email:''}) 
-        }
-    
+        } else{
+            this.setState({empty: false, errorMessage: ''})
         //Si pasa todas las verificaciones
-        this.register(email, password, username)
+        this.register(email, password, username)}
       }
       
     
@@ -78,6 +62,9 @@ class Register extends Component {
                 
             })
             .catch( error => {
+                this.setState({
+                    errorMessage: error.message
+                })
                 console.log(error);
 
             })
@@ -104,7 +91,7 @@ class Register extends Component {
                     style={styles.input}
                     onChangeText={(text) =>{this.setState({email: text})}}
                     blurOnSubmit = {true}
-                    placeholder = 'user@email.com'
+                    placeholder = 'Email'
                     keyboardType='email-address'
                     value={this.state.email}
                 />
@@ -112,7 +99,7 @@ class Register extends Component {
                     style={styles.input}
                     onChangeText={(text) =>{this.setState({username: text})}}
                     blurOnSubmit = {true}
-                    placeholder='username'
+                    placeholder='Username'
                     keyboardType='default'
                     value={this.state.username}
                 />
@@ -121,7 +108,7 @@ class Register extends Component {
                     onChangeText={(text) =>{this.setState({password: text})}}
                     minLength={6}
                     blurOnSubmit = {true}
-                    placeholder='password'
+                    placeholder='Password'
                     keyboardType='default'
                     secureTextEntry={true}
                     value={this.state.password}
@@ -129,19 +116,10 @@ class Register extends Component {
 
                 {/* MENSAJES DE ERROR */}
                  {this.state.empty && (
-                    <Text>Please fill out all the fields</Text>
+                    <Text style={styles.errorBox}>Please fill out all the fields</Text>
                  )}
-                 {this.state.length && (
-                    <Text>Your password should be at least 6 characters</Text>
-                 )}
-
-                {this.state.format && (
-                    <Text>Please enter a valid email address</Text>
-                 )}
-
-                {(this.state.used) &&(
-                    <Text>The email account is already in use! Pick another one</Text>
-                 )} 
+                
+                {(this.state.errorMessage === '' ? null : <Text style={styles.errorBox}>{this.state.errorMessage}</Text>)}
 
                 <TouchableOpacity style={styles.button} onPress={() => this.isError(this.state.email, this.state.password, this.state.username)}>
                     <Text style={styles.textButton}>Register</Text>    
@@ -196,7 +174,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-
+    errorBox:{
+        backgroundColor: '#ffc4c4',
+        borderRadius: 6,
+        marginTop: 5,
+        color: 'red',
+        width: '100%',
+        textAlign: 'center'
+    },
     firstBox:{
         backgroundColor: '#EEEEEE',
         borderRadius: 6,

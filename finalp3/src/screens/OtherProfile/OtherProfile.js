@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
-import PostInProfile from '../../components/PostInProfile/PostInProfile';
+import Post from '../../components/Post/Post';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 import firebase from 'firebase';
 
@@ -23,6 +23,10 @@ class OtherProfile extends Component {
                        id: doc.id,
                        data: doc.data()
                     })
+                    if (doc.data().owner == auth.currentUser.email) {
+                        console.log("Se busco a si mismo, redirigimos a miperfil");
+                        this.props.navigation.navigate('Profile') 
+                    }
                 this.setState({
                     users: users
                 })
@@ -52,6 +56,7 @@ class OtherProfile extends Component {
 
     render(){
         console.log(this.state);
+        
         return(
             <ScrollView>
                 <View style={styles.header}>
@@ -84,7 +89,7 @@ class OtherProfile extends Component {
                     <FlatList 
                         data= {this.state.listaPost}
                         keyExtractor={ unPost => unPost.id }
-                        renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
+                        renderItem={ ({item}) => <Post infoPost = { item } /> }
                         style= {styles.listaPosts}
                     />
                 }                

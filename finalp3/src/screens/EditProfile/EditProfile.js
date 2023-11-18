@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { db, auth } from "../../firebase/config";
-import PostInProfile from "../../components/PostInProfile/PostInProfile";
 import {Image, TextInput, TouchableOpacity, View,Text,StyleSheet, FlatList, ScrollView} from "react-native";
 import MyCamera from "../../components/MyCamera/MyCamera";
 

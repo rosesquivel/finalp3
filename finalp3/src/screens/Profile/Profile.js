@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {db, auth} from '../../firebase/config';
-import PostInProfile from '../../components/PostInProfile/PostInProfile';
+import Post from '../../components/Post/Post';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView, Alert} from 'react-native';
 
 
@@ -82,7 +82,16 @@ class Profile extends Component {
                 <FlatList 
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <View><Text>Username: {item.data.username}</Text><Text>Bio: {item.data.username}</Text></View>
+                        renderItem={ ({item}) => <View>
+                            <Text>Username: {item.data.username}</Text>
+                            <Text>Bio: {item.data.bio}</Text>
+                            
+                            <Image
+                                style={styles.image}
+                                source={item.data.profilePicture}
+                                resizeMode="contain"/>
+                            
+                        </View>
                         }
                         style={styles.datosPerfil}
                     />
@@ -114,7 +123,7 @@ class Profile extends Component {
                     <FlatList 
                         data= {this.state.listaPost}
                         keyExtractor={ unPost => unPost.id }
-                        renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
+                        renderItem={ ({item}) => <Post infoPost = { item } navigate={this.props.navigation.navigate}/> }
                         style= {styles.listaPosts}
                     />
                     
@@ -134,13 +143,9 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     image: {
-        alignSelf: 'center',
-        height: 80,
-        width: "20%",
-        backgroundColor: 'white',
-        borderRadius: 10,
-        marginHorizontal: 100
+        height: 200
     },
+   
     datosPerfil:{
         backgroundColor: '#ffffff',
         borderRadius: 6,
@@ -156,6 +161,10 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 5,
         height: 100
+    },
+    image: {
+        width: 300, 
+        height: 150,
     },
     button:{
         alignSelf: 'flex-end',
