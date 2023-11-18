@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {db, auth } from '../../firebase/config';
+import {db, auth} from '../../firebase/config';
 import PostInProfile from '../../components/PostInProfile/PostInProfile';
-import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView, Alert} from 'react-native';
+
 
 class Profile extends Component {
     constructor(){
@@ -47,6 +48,23 @@ class Profile extends Component {
         )
     }
 
+
+
+   
+   deleteAccount(){
+    console.log("En deleteAccount")
+   
+   /*  db.collection('post').doc(auth.currentUser.uid).delete() */ //primero elimino todo los posteos del usuario --> no funciona :(
+    auth.currentUser.delete().then(() => {
+                    this.props.navigation.navigate('Register', {navigation: this.props.navigation.navigate })
+                    //luego elimino su cuenta y lo mando al register
+                    //siguen publicados los posteos que subió en home
+
+                  }).catch((error) => {
+                     console.log(error)
+                  })
+            }
+
     logout(){
         auth.signOut()
         .then(() => {
@@ -57,7 +75,6 @@ class Profile extends Component {
     }
 
     render(){
-        console.log(this.state);
         return(
             <ScrollView>
                 <Text style={styles.screenTitle}>My Profile</Text>
@@ -76,6 +93,12 @@ class Profile extends Component {
                 <TouchableOpacity style={styles.button} onPress={()=> this.props.navigation.navigate('EditProfile', { userData: this.state.users,navigation: this.props.navigation.navigate })}>
                     <Text style={styles.textButton}>Edit</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => this.deleteAccount()}>
+                 <Text style={styles.textButton}>Delete account</Text>
+                </TouchableOpacity>
+                   
+              
+                    
                 <Text style={styles.screenTitle}>My Posts</Text>
                 
                 {

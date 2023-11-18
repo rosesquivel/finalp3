@@ -22,9 +22,10 @@ class Register extends Component {
     }
     componentDidMount(){
         console.log("En register")
+        //Si está logueado 
         auth.onAuthStateChanged( user => {
             if(user){
-                this.props.navigation.navigate('Login')
+                this.props.navigation.navigate('Menu')
             }
 
         })
@@ -82,12 +83,12 @@ class Register extends Component {
             })
     }
 
-    //Remember me
+/*     //Remember me
     checkBox = () => {
         this.setState((prevState) => ({
             isChecked: !prevState.isChecked,
         }));
-    };
+    }; */
 
     render(){
         return(
@@ -147,7 +148,7 @@ class Register extends Component {
                 </TouchableOpacity>
 
                 
-              
+            {/*   
                 { this.state.isChecked ?(
                 <TouchableOpacity onPress={this.checkBox} style={styles.checkboxContainer}>
                 <AntDesign
@@ -162,7 +163,7 @@ class Register extends Component {
                 <FontAwesome5 name="square" size={24} color="black" />
                 <Text style={styles.checkboxLabel}>Remember me!</Text>
                 </TouchableOpacity>)}
-            
+             */}
             </View>
 
             
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     },
 
     //checkbox
-    checkboxContainer: {
+/*     checkboxContainer: {
         padding: 15,
         flexDirection: 'row',
         alignItems: 'center',
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     checkboxLabel: {
         marginLeft: 8,
         fontSize: 13,
-    },
+    }, */
 
     //FOOTER
 

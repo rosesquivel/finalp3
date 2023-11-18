@@ -128,11 +128,18 @@ const styles = StyleSheet.create({
         //flex:1,
     },
     permisos:{
-        color: "#990000",
+      
+            fontWeight: 'bold',
+            fontSize: 80,
+            color: '#46627f',
+            alignSelf: 'center',
+            textAlign: 'center'
+        },
+       /*  color: "#990000",
         backgroundColor: "#FF0000",
         marginHorizontal: 10,
-        borderRadius: 2
-    },
+        borderRadius: 2 */
+
     cameraBody: {
         flex:1,
         paddingBottom: '100%'

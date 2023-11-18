@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import { db, auth } from "../../firebase/config";
 import PostInProfile from "../../components/PostInProfile/PostInProfile";
-import {
-  Image,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import {Image, TextInput, TouchableOpacity, View,Text,StyleSheet, FlatList, ScrollView} from "react-native";
 import MyCamera from "../../components/MyCamera/MyCamera";
 
 class EditProfile extends Component {
@@ -40,34 +31,7 @@ class EditProfile extends Component {
     console.log(this.state);
   }
 
-  isError(email, password, username, fotoUrl) {
-    if (email == "" || username == "" || password == "") {
-      this.setState({ empty: true });
-      this.setState({ username: "" });
-      this.setState({ email: "" });
-      this.setState({ password: "" });
-    }
-
-    if (password.length < 6) {
-      this.setState({ length: true });
-      this.setState({ password: "" });
-    }
-
-    //Permite verificar que el mail tenga el formato adecuado
-    if (!validator.isEmail(email)) {
-      this.setState({ format: true });
-      this.setState({ email: "" });
-    }
-
-    //Verificar si el mail ya está en uso
-    if (auth.fetchSignInMethodsForEmail(email)) {
-      this.setState({ used: true });
-      this.setState({ email: "" });
-    }
-
-    //Si pasa todas las verificaciones
-    this.editUser(email, password, username, fotoUrl);
-  }
+  
 
   editUser(email, pass, username, Bio, profilePic) {
     auth
@@ -99,21 +63,14 @@ class EditProfile extends Component {
       <View style={styles.mainContainer}>
         <View style={styles.right}>
           <View style={styles.firstBox}>
+
+            {/* FOTO DE PERFIL */}
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => {
-                this.setState({ email: text });
-              }}
-              blurOnSubmit={true}
-              placeholder="user@email.com"
-              keyboardType="email-address"
-              value={this.state.email}
-            />
+           {/* USERNAME */}
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
@@ -127,7 +84,7 @@ class EditProfile extends Component {
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ password: text });
+                this.setState({ bio: text });
               }}
               minLength={6}
               blurOnSubmit={true}
@@ -153,6 +110,9 @@ class EditProfile extends Component {
           </View>
         </View>
 
+        <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Profile')}>
+                    <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
+                </TouchableOpacity>
         <Text style={styles.footerText}>
           Esquivel - García Devesa - Manoukian
         </Text>

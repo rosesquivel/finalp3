@@ -7,7 +7,7 @@ class SearchResults extends Component {
     constructor(props){
         super(props)
         this.state={
-            todosUsers: [],
+            todosUsers: [], //los datos de todos los usuarios traídos desde la colección user (componentDidMount)
             usersFiltrados: [],
             searchText: ''
         }
@@ -52,13 +52,13 @@ class SearchResults extends Component {
     } */
 
     searchUsers(searchText){
+        console.log(searchText)    
         let nuevaLista = []
         for (let i = 0; i < this.state.todosUsers.length; i++) {
-            if (this.state.todosUsers[i].datos.owner.includes(searchText) ) {
-                // IF Para no duplicar usuarios en resultados:
-                if(this.state.usersFiltrados.includes(this.state.todosUsers[i]))
-                {null}
-                else{nuevaLista.push(this.state.todosUsers[i])}
+            //ver si funciona con user
+            if (this.state.todosUsers[i].datos.owner.includes(searchText) || this.state.todosUsers[i].datos.username.includes(searchText) ) {
+                {nuevaLista.push(this.state.todosUsers[i])}
+              
             }
             if (searchText.length==0){
                 nuevaLista = []
@@ -73,6 +73,7 @@ class SearchResults extends Component {
 
     render(){
 
+        console.log('En search')
         console.log(this.state.todosUsers);
         console.log(this.state.usersFiltrados);
         console.log(this.state.searchText);
@@ -84,7 +85,7 @@ class SearchResults extends Component {
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=> (this.searchUsers(text), this.setState({searchText: text.toLowerCase()}))}
-                    placeholder='Search email'
+                    placeholder='Search via email or username '
                     keyboardType='default'
                     value={this.state.searchText}>
                 </TextInput>
@@ -93,7 +94,7 @@ class SearchResults extends Component {
                 {
                     this.state.usersFiltrados.length === 0 
                     ?
-                    <Text style={styles.noResults}>No results</Text>
+                    <Text style={styles.noResults}>NO RESULTS</Text>
                     :
                    
                     <FlatList 
@@ -131,8 +132,8 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     input:{
-        height:25,
-        width: '80%',
+        height:40,
+        width: '90%',
         borderWidth:1,
         borderColor: '#ccc',
         borderStyle: 'solid',
@@ -149,12 +150,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     noResults: {
-        marginHorizontal: 20,
-        fontSize: 15,
-        backgroundColor: '#F00',
-        borderRadius: 6,
-        color: '#800',
-        width: 200,
+        fontWeight: 'bold',
+        fontSize: 80,
+        color: '#46627f',
         alignSelf: 'center',
         textAlign: 'center'
     },

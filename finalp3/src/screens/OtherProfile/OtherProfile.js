@@ -54,16 +54,21 @@ class OtherProfile extends Component {
         console.log(this.state);
         return(
             <ScrollView>
+                <View style={styles.header}>
+                <Text style={styles.nombrePerfil}>{this.props.route.params.userData}'s profile</Text>
                 <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Home')}>
                     <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
                 </TouchableOpacity>
+                </View>
                 
-                <Text style={styles.screenTitle}>{this.props.route.params.userData}</Text>
+           
                 <FlatList 
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <View><Text>Username: {item.data.username}</Text><Text>Bio: {item.data.bio}</Text></View> }
-                        style= {styles.datosPerfil}
+                        renderItem={ ({item}) => <View>
+                        <Text>{item.data.username}</Text>
+                        <Text>Bio: {item.data.bio}</Text></View> }
+                        style= {styles.text}
                     />  
                 
                 <Text style={styles.screenTitle}>Posts</Text>
@@ -82,10 +87,7 @@ class OtherProfile extends Component {
                         renderItem={ ({item}) => <PostInProfile infoPost = { item } /> }
                         style= {styles.listaPosts}
                     />
-                }
-
-                
-                
+                }                
             </ScrollView>
             
         )}
@@ -99,6 +101,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginVertical: 10,
         paddingLeft: 15
+    },
+
+    nombrePerfil:{
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#46627f',
     },
     datosPerfil:{
         backgroundColor: '#ffffff',
@@ -141,6 +149,19 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold'
 
+    },
+    text:{
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    header:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginTop: 10,
     }
 
 })
