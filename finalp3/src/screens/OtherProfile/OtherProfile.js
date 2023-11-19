@@ -60,7 +60,7 @@ class OtherProfile extends Component {
         return(
             <ScrollView>
                 <View style={styles.header}>
-                <Text style={styles.nombrePerfil}>{this.props.route.params.userData}'s profile</Text>
+                <Text style={styles.screenTitle}>{this.props.route.params.userData}</Text>
                 <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Home')}>
                     <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
                 </TouchableOpacity>
@@ -71,9 +71,14 @@ class OtherProfile extends Component {
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
                         renderItem={ ({item}) => <View>
-                        <Text>{item.data.username}</Text>
-                        <Text>Bio: {item.data.bio}</Text></View> }
-                        style= {styles.text}
+                        <Text>Username: {item.data.username}</Text>
+                        <Text>Bio: {item.data.bio}</Text>
+                        <Image
+                                style={styles.image}
+                                source={item.data.profilePicture}
+                                resizeMode="contain"/>
+                        </View> }
+                        style={styles.datosPerfil}
                     />  
                 
                 <Text style={styles.screenTitle}>Posts</Text>
@@ -99,20 +104,17 @@ class OtherProfile extends Component {
         }
 
 const styles = StyleSheet.create({
-    //CONTENEDOR GENERAL
+       //CONTENEDOR GENERAL
     screenTitle: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginHorizontal: 20,
-        marginVertical: 10,
-        paddingLeft: 15
+        marginLeft: 20,
+        marginVertical: 10
     },
-
-    nombrePerfil:{
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#46627f',
+    image: {
+        height: 200
     },
+   
     datosPerfil:{
         backgroundColor: '#ffffff',
         borderRadius: 6,
@@ -120,33 +122,34 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 5,
     },
-    image: {
-        alignSelf: 'center',
-        height: 80,
-        width: "20%",
-        backgroundColor: 'white',
-        borderRadius: 10,
-        marginHorizontal: 100
-    },
     mainContainer:{
         flex: 1,
         backgroundColor: '#ffffff',
         borderRadius: 6,
         marginHorizontal: 20,
         padding: 5,
-        marginVertical: 5
+        marginVertical: 5,
+        height: 100
+    },
+    image: {
+        width: 300, 
+        height: 150,
     },
     button:{
-        height: 25,
-        width: "15%",
-        backgroundColor: '#46627f',
-        marginLeft: "5%",
+        alignSelf: 'flex-start',
+        height:30,
+        width: 90,
+        backgroundColor:'#46627f',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
         textAlign: 'center',
-        borderRadius: 4,
-        borderWidth: 1,
+        borderRadius:4, 
+        borderWidth:1,
         borderStyle: 'solid',
         borderColor: '#46627f',
-        marginTop: 15
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 20
     },
     textButton:{
         color: '#fff',
@@ -154,21 +157,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold'
 
-    },
-    text:{
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: 'bold'
-    },
-    header:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        marginTop: 10,
     }
-
 })
 
 export default OtherProfile;

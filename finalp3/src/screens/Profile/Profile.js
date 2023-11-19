@@ -67,14 +67,11 @@ class Profile extends Component {
 
     logout(){
         auth.signOut()
-        .then(() => {
-            this.props.navigation.navigate('Login')
-            console.log(auth.currentUser.email);
-        })
-        .catch(e => {console.log(e)})
+        this.props.navigation.navigate('Login')
     }
 
     render(){
+        console.log(auth.currentUser.email);
         return(
             <ScrollView>
                 <Text style={styles.screenTitle}>My Profile</Text>

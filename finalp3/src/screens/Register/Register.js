@@ -16,16 +16,16 @@ class Register extends Component {
             username:'',
             password:'',
             bio: '',
-            profilePicture: '',
+            profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg',
             errorMessage: ''
         }
     }
     componentDidMount(){
         console.log("En register")
         //Si está logueado 
-        auth.onAuthStateChanged( user => {
+        auth.onAuthStateChanged( (user) => {
             if(user){
-                this.props.navigation.navigate('Menu')
+                this.props.navigation.navigate('Login')
             }
 
         })
@@ -38,10 +38,10 @@ class Register extends Component {
             this.setState({email:''})
             this.setState({password:''})
         
-        } else{
+        } 
             this.setState({empty: false, errorMessage: ''})
         //Si pasa todas las verificaciones
-        this.register(email, password, username)}
+        this.register(email, password, username)
       }
       
     
