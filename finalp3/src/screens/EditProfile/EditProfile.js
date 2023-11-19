@@ -21,13 +21,13 @@ class EditProfile extends Component {
           users.push({
             id: doc.id,
             data: doc.data(),
-          });
+          })
           this.setState({
             usuario: users,
           });
         });
       });
-    console.log(this.state);
+    console.log(this.state.usuario);
   }
 
   
