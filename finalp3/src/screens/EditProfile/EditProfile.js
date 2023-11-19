@@ -11,30 +11,16 @@ class EditProfile extends Component {
       usuario: [],
     };
   }
-  componentDidMount() {
-    console.log("En editProfile");
+  componentDidMount(){
+    console.log("En editprofile")
+    console.log(this.props.route.params.userData[0].data)
 
-    db.collection("users")
-      .where("owner", "==", auth.currentUser.email)
-      .onSnapshot((docs) => {
-        let users = [];
-        docs.forEach((doc) => {
-          users.push({
-            id: doc.id,
-            data: doc.data(),
-          });
-          this.setState({
-            usuario: users,
-          });
-        });
-      });
-    console.log(this.state);
-  }
+    }
 
   
 
   editUser(email, pass, username, Bio, profilePic) {
-    auth
+/*     auth
       .createUserWithEmailAndPassword(email, pass)
       .then((response) => {
         console.log("Registrado ok", response);
@@ -49,7 +35,7 @@ class EditProfile extends Component {
       })
       .catch((error) => {
         console.log(error);
-      });
+      }); */
   }
 
   traerUrlDeFoto(url) {
