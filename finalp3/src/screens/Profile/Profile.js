@@ -4,6 +4,7 @@ import Post from '../../components/Post/Post';
 import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView, Alert} from 'react-native';
 
 
+
 class Profile extends Component {
     constructor(){
         super()
@@ -51,19 +52,27 @@ class Profile extends Component {
 
 
    
-   deleteAccount(){
-    console.log("En deleteAccount")
-   
-   /*  db.collection('post').doc(auth.currentUser.uid).delete() */ //primero elimino todo los posteos del usuario --> no funciona :(
-    auth.currentUser.delete().then(() => {
-                    this.props.navigation.navigate('Register', {navigation: this.props.navigation.navigate })
-                    //luego elimino su cuenta y lo mando al register
-                    //siguen publicados los posteos que subió en home
+     deleteAccount(userId){
 
-                  }).catch((error) => {
-                     console.log(error)
-                  })
-            }
+        console.log("En deleteAccount")
+        db.collection('users').doc(userId).delete()
+      .then(() => {
+        console.log("usuario eliminado")
+        this.props.navigation.navigate('Register')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+     
+
+
+
+
+
+
+
+
 
     logout(){
         auth.signOut()
@@ -102,7 +111,7 @@ class Profile extends Component {
                 <TouchableOpacity style={styles.button} onPress={() => this.deleteAccount()}>
                  <Text style={styles.textButton}>Delete account</Text>
                 </TouchableOpacity>
-                   
+                        
               
                     
                 <Text style={styles.screenTitle}>My Posts</Text>
