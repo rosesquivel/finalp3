@@ -70,14 +70,21 @@ class OtherProfile extends Component {
                 <FlatList 
                         data= {this.state.users}
                         keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <View>
-                        <Text>Username: {item.data.username}</Text>
-                        <Text>Bio: {item.data.bio}</Text>
+                        renderItem={ ({item}) => <View style={styles.datosPerfil}>
                         <Image
-                                style={styles.image}
-                                source={item.data.profilePicture}
-                                resizeMode="contain"/>
-                        </View> }
+                          style={styles.imagenPerfil}
+                          source={item.data.profilePicture}
+                          resizeMode="contain"
+                        />
+
+                        <Text style={styles.datosPerfilText}>Username:</Text>
+                        <Text style={styles.datosPerfilValue}>{item.data.username}</Text>
+                        <br></br>
+                  
+                        <Text style={styles.datosPerfilText}>Descripción:</Text>
+                        <Text style={styles.datosPerfilValue}>{item.data.bio}</Text>
+                  
+                      </View> }
                         style={styles.datosPerfil}
                     />  
                 
@@ -111,17 +118,40 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginVertical: 10
     },
-    image: {
-        height: 200
-    },
+    imagenPerfil: {
+        width: 120,
+        height: 120,
+        borderRadius: 60, 
+        marginBottom: 16,  
+      },
    
-    datosPerfil:{
+      datosPerfil: {
         backgroundColor: '#ffffff',
-        borderRadius: 6,
+        borderRadius: 10,
         marginHorizontal: 20,
-        padding: 5,
-        marginVertical: 5,
-    },
+        padding: 20,
+        marginVertical: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      
+    datosPerfilText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+      },
+      
+    datosPerfilValue: {
+        fontSize: 14,
+        color: '#555',
+      },
+
     mainContainer:{
         flex: 1,
         backgroundColor: '#ffffff',

@@ -121,6 +121,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: "#ffffff",
+    justifyContent: "center",  
+    alignItems: "center",
+    marginBottom: 5,
   },
 
   //PANTALLA CON FORM

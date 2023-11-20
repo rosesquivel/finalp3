@@ -93,17 +93,46 @@ class Profile extends Component {
                 />
 
                 <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
+               
+                <FlatList 
+                        data= {this.state.users}
+                        keyExtractor={ user => user.id }
+                        renderItem={ ({item}) => <View style={styles.datosPerfil}>
+                        <Image
+                          style={styles.imagenPerfil}
+                          source={item.data.profilePicture}
+                          resizeMode="contain"
+                        />
+
+                        <Text style={styles.datosPerfilText}>Username:</Text>
+                        <Text style={styles.datosPerfilValue}>{item.data.username}</Text>
+                        <br></br>
+                  
+                        <Text style={styles.datosPerfilText}>Descripción:</Text>
+                        <Text style={styles.datosPerfilValue}>{item.data.bio}</Text>
+                  
+                      </View>
+                        }
+                        style={styles.datosPerfil}
+                    />
+                <View style={styles.botonesContainer}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('EditProfile', { userData: this.state.users, navigation: this.props.navigation.navigate })}>
                     <Text style={styles.textButton}>Edit</Text>
                 </TouchableOpacity>
+                </View>
+                <View style={styles.botonesContainer}>
                 <TouchableOpacity style={styles.button} onPress={() => this.deleteAccount()}>
                     <Text style={styles.textButton}>Delete account</Text>
                 </TouchableOpacity>
 
 
 
+                </View>       
+              
+                    
                 <Text style={styles.screenTitle}>My Posts</Text>
 
                 {
@@ -144,13 +173,46 @@ const styles = StyleSheet.create({
     },
 
     datosPerfil: {
+    imagenPerfil: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,  // Bordes redondeados
+        marginBottom: 16,  // Espacio entre la imagen y el texto
+      },
+   
+    datosPerfil: {
         backgroundColor: '#ffffff',
-        borderRadius: 6,
+        borderRadius: 10,
         marginHorizontal: 20,
         padding: 5,
         marginVertical: 5,
     },
     mainContainer: {
+        padding: 20,
+        marginVertical: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      
+    datosPerfilText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+      },
+      
+    datosPerfilValue: {
+        fontSize: 14,
+        color: '#555',
+      },
+
+    
+    mainContainer:{
         flex: 1,
         backgroundColor: '#ffffff',
         borderRadius: 6,
@@ -181,6 +243,15 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     textButton: {
+        alignItems: 'center',
+        marginVertical: 'auto',  // Centra verticalmente
+        marginLeft: 10,
+    },
+    botonesContainer: {
+        flexDirection: 'row',  // Cambia a 'row' para alinear horizontalmente
+        justifyContent: 'center'
+      },
+    textButton:{
         color: '#fff',
         textAlign: 'center',
         fontSize: 15,
