@@ -4,51 +4,38 @@ import {Image, TextInput, TouchableOpacity, View,Text,StyleSheet, FlatList, Scro
 import MyCamera from "../../components/MyCamera/MyCamera";
 
 class EditProfile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      usuario: [],
+      usuario: this.props.route.params.userData[0],
+      fotoUrl: this.props.route.params.userData[0].data.profilePicture,
+      newBio: this.props.route.params.userData[0].data.bio,
+      newUsername: this.props.route.params.userData[0].data.username
     };
   }
   componentDidMount() {
     console.log("En editProfile");
-
-    db.collection("users")
-      .where("owner", "==", auth.currentUser.email)
-      .onSnapshot((docs) => {
-        let users = [];
-        docs.forEach((doc) => {
-          users.push({
-            id: doc.id,
-            data: doc.data(),
-          })
-          this.setState({
-            usuario: users,
-          });
-        });
-      });
     console.log(this.state.usuario);
   }
-
+ 
+  componentDidUpdate() {
+    console.log(this.state)
+  }
   
 
-  editUser(email, pass, username, Bio, profilePic) {
-    auth
-      .createUserWithEmailAndPassword(email, pass)
-      .then((response) => {
-        console.log("Registrado ok", response);
-
-        //Create user collection
-        db.collection("users").doc(this.state.users.id).update({
-          owner: auth.currentUser.email,
-          username: this.state.username,
-          bio: this.state.bio,
-          profilePicture: this.state.profilePicture,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  editUser(newUsername, newBio, newPicture) {
+    
+    db.collection('users').doc(this.state.usuario.id).update({
+        bio: newBio,
+        username: newUsername,
+        profilePicture: newPicture
+    })
+        .then(res => {
+            this.setState({
+                
+            })
+        })
+        .catch(e => console.log(e))
   }
 
   traerUrlDeFoto(url) {
@@ -64,42 +51,42 @@ class EditProfile extends Component {
           <View style={styles.firstBox}>
 
             {/* FOTO DE PERFIL */}
+            <Text >Nueva foto de Perfil</Text>
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
            {/* USERNAME */}
+           <Text >Nombre de usuario</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ username: text });
+                this.setState({ newUsername: text });
               }}
               blurOnSubmit={true}
-              placeholder="username"
+              placeholder="new username"
               keyboardType="default"
-              value={this.state.username}
+              value={this.state.usuario.data.username}
             />
+            <Text >Biografía</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ bio: text });
+                this.setState({ newBio: text });
               }}
-              minLength={6}
               blurOnSubmit={true}
-              placeholder="password"
+              placeholder="bio"
               keyboardType="default"
-              secureTextEntry={true}
-              value={this.state.password}
+              value={this.state.usuario.data.bio}
             />
-
+            <Text >Verifique que su foto se haya subido correctamente antes de clickear el boton</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() =>
-                this.isError(
-                  this.state.email,
-                  this.state.password,
-                  this.state.username,
+                this.editUser(
+                  this.state.newUsername,
+                  this.state.newBio,
                   this.state.fotoUrl
                 )
               }
