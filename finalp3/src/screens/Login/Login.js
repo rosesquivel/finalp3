@@ -131,14 +131,14 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
     alignItems: "center",
   },
-  errorBox:{
+  errorBox: {
     backgroundColor: '#ffc4c4',
     borderRadius: 6,
     marginTop: 5,
     color: 'red',
     width: '100%',
     textAlign: 'center'
-},
+  },
   loginText: {
     color: "#46627f",
     fontWeight: "bold   ",

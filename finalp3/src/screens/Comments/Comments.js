@@ -1,41 +1,42 @@
 import react, { Component } from 'react';
-import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
+import { Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { db, auth } from '../../firebase/config';
 import firebase from 'firebase';
 import React from 'react';
 
 class Comments extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
             textoComment: '',
             comentarios: undefined,
             todosPosts: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         //Traer datos
         db.collection('posts')
-        .onSnapshot(
-            posteos => {
-                let postsAMostrar = [];
+            .onSnapshot(
+                posteos => {
+                    let postsAMostrar = [];
 
-                posteos.forEach( unPost => {
-                    if(unPost.id == this.props.route.params.infoPost.id){
-                    console.log('ID Coincide');
-                        postsAMostrar.push(
-                        {
-                            postFiltrado: unPost.data()
+                    posteos.forEach(unPost => {
+                        if (unPost.id == this.props.route.params.infoPost.id) {
+                            console.log('ID Coincide');
+                            postsAMostrar.push(
+                                {
+                                    postFiltrado: unPost.data()
+                                }
+                            )
                         }
-                    )}
-                })
+                    })
 
-                this.setState({
-                    comentarios: postsAMostrar[0].postFiltrado.comments
-                })
-            }
-        )
+                    this.setState({
+                        comentarios: postsAMostrar[0].postFiltrado.comments
+                    })
+                }
+            )
     }
 
     guardarComment() {
@@ -51,12 +52,12 @@ class Comments extends Component {
             .catch(e => console.log(e))
     }
 
-    render(){
+    render() {
         console.log('En render de comments:');
         console.log(this.state.comentarios);
-        return(
+        return (
             <ScrollView>
-                <TouchableOpacity style={styles.buttonBack} onPress={()=>this.props.navigation.navigate('Home')}>
+                <TouchableOpacity style={styles.buttonBack} onPress={() => this.props.navigation.navigate('Home')}>
                     <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
                 </TouchableOpacity>
                 <Text style={styles.postOwner}>{this.props.route.params.infoPost.datos.owner}'s post:</Text>
@@ -67,10 +68,10 @@ class Comments extends Component {
                     <FlatList
                         data={this.state.comentarios}
                         keyExtractor={key => key.text + key.user}
-                        renderItem={(comment) => <View  style={styles.unPostContainer}><TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: comment.item.userEmail, navigation: this.props.navigation })}>
-                        <Text style={styles.commenterEmail}>{comment.item.userEmail}:</Text>
-                    </TouchableOpacity>
-                    <Text>{comment.item.text}</Text></View>}
+                        renderItem={(comment) => <View style={styles.unPostContainer}><TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: comment.item.userEmail, navigation: this.props.navigation })}>
+                            <Text style={styles.commenterEmail}>{comment.item.userEmail}:</Text>
+                        </TouchableOpacity>
+                            <Text>{comment.item.text}</Text></View>}
                     /> : null}
                 <View style={styles.commentSection}>
                     <TextInput
@@ -84,7 +85,7 @@ class Comments extends Component {
                         <Text style={styles.textButton} >Add</Text>
                     </TouchableOpacity>}
                 </View>
-                
+
             </ScrollView>
         )
     }
@@ -92,19 +93,19 @@ class Comments extends Component {
 
 const styles = StyleSheet.create({
     //CONTENEDOR GENERAL
-    screenTitle:{
+    screenTitle: {
         fontSize: 30,
         fontWeight: 'bold',
         marginLeft: 20,
         marginVertical: 10
     },
-    postOwner:{ 
+    postOwner: {
         fontSize: 15,
         fontWeight: 'bold',
         marginLeft: 20,
         marginTop: 10
     },
-    postText:{
+    postText: {
         fontSize: 15,
         marginLeft: 20,
     },
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
 
     },
-    commenterEmail:{
+    commenterEmail: {
         fontWeight: 'bold'
     }
 

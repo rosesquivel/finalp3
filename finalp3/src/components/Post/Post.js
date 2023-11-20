@@ -10,7 +10,7 @@ class Post extends Component {
         this.state = {
             like: false,
             cantidadDeLikes: this.props.infoPost.datos.likes.length,
-            comments: this.props.infoPost.datos.comments.slice(0,4),
+            comments: this.props.infoPost.datos.comments.slice(0, 4),
         }
     }
 
@@ -59,7 +59,7 @@ class Post extends Component {
     }
 
 
-    render() {   
+    render() {
         return (
             <View style={styles.unPostContainer}>
                 <TouchableOpacity onPress={() => this.props.navigate('OtherProfile', { userData: this.props.infoPost.datos.owner, navigation: this.props.navigation })}>
@@ -73,34 +73,34 @@ class Post extends Component {
                 <Text>{this.props.infoPost.datos.textoPost}</Text>
 
                 <View style={styles.containerUnidor}>
-                <TouchableOpacity onPress={() => this.props.navigate('Comments', {infoPost: this.props.infoPost, navigation: this.props.navigation})}>
-                    <Text style={styles.linkToComments}><FontAwesome name="commenting-o" size={18} color="46627f" />{this.props.infoPost.datos.comments.length}</Text>
-                </TouchableOpacity> 
-                 {/* If ternario */}
-                 {this.state.like ?
-                    <TouchableOpacity onPress={() => this.unLike()}>
-                        <Text> <AntDesign name="heart" size={18} color="red" />{this.state.cantidadDeLikes}</Text>
+                    <TouchableOpacity onPress={() => this.props.navigate('Comments', { infoPost: this.props.infoPost, navigation: this.props.navigation })}>
+                        <Text style={styles.linkToComments}><FontAwesome name="commenting-o" size={18} color="46627f" />{this.props.infoPost.datos.comments.length}</Text>
                     </TouchableOpacity>
-                    :
-                    <TouchableOpacity onPress={() => this.likear()}>
-                        
-                        <Text> <AntDesign name="hearto" size={18} color="black" />{this.state.cantidadDeLikes}</Text>
-                    </TouchableOpacity>
-                }
+                    {/* If ternario */}
+                    {this.state.like ?
+                        <TouchableOpacity onPress={() => this.unLike()}>
+                            <Text> <AntDesign name="heart" size={18} color="red" />{this.state.cantidadDeLikes}</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={() => this.likear()}>
+
+                            <Text> <AntDesign name="hearto" size={18} color="black" />{this.state.cantidadDeLikes}</Text>
+                        </TouchableOpacity>
+                    }
                 </View>
                 {this.props.infoPost.datos.comments && this.props.infoPost.datos.comments.length > 0 ?
                     <FlatList
                         data={this.state.comments}
                         keyExtractor={key => key.text + key.user}
                         initialNumToRender={4}
-                        renderItem={(comment) => 
-                        <View  style={styles.showComments}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: comment.item.useremail, navigation: this.props.navigation})}>
-                        <Text style={styles.text}>{comment.item.userEmail}:</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.uglyText}>{comment.item.text}</Text></View>}
+                        renderItem={(comment) =>
+                            <View style={styles.showComments}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: comment.item.useremail, navigation: this.props.navigation })}>
+                                    <Text style={styles.text}>{comment.item.userEmail}:</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.uglyText}>{comment.item.text}</Text></View>}
                     /> : null}
-                    </View>
+            </View>
         )
     }
 }
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     unPostContainer: {
         flex: 1,
         backgroundColor: '#ffffff',
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 6,
         marginHorizontal: 20,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
 
-    linkToComments:{
+    linkToComments: {
         color: '#2b40a6'
     },
     lista: {},
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     image: {
-        width: 300, 
+        width: 300,
         height: 150,
     },
     input: {
@@ -164,22 +164,22 @@ const styles = StyleSheet.create({
     containerUnidor: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 100, 
+        width: 100,
         marginTop: 10,
     },
     //LIKES CONTAINER
     likesContainer: {
         marginRight: 100,
-      },
-    
+    },
 
-      showComments:{
+
+    showComments: {
         flexDirection: 'row',
-        justifyContent: 'center', 
-        marginTop:5
-      },
-    
-    
+        justifyContent: 'center',
+        marginTop: 5
+    },
+
+
     //TEXTO
     text: {
         color: '#46627f',
@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: 'bold'
     },
-    uglyText:{
+    uglyText: {
         fontSize: 11,
-        marginLeft:5,
+        marginLeft: 5,
         textAlign: 'center'
     }
 })
