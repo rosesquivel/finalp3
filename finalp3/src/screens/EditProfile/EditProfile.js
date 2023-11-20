@@ -67,7 +67,7 @@ class EditProfile extends Component {
               blurOnSubmit={true}
               placeholder="new username"
               keyboardType="default"
-              value={this.state.usuario.data.username}
+              value={this.state.newUsername}
             />
             <Text >Biografía</Text>
             <TextInput
@@ -78,7 +78,7 @@ class EditProfile extends Component {
               blurOnSubmit={true}
               placeholder="bio"
               keyboardType="default"
-              value={this.state.usuario.data.bio}
+              value={this.state.newBio}
             />
             <Text >Verifique que su foto se haya subido correctamente antes de clickear el boton</Text>
             <TouchableOpacity
@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: "#ffffff",
+    justifyContent: "center",  
+    alignItems: "center",
+    marginBottom: 5,
   },
 
   //PANTALLA CON FORM
