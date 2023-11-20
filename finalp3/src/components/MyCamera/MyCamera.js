@@ -90,11 +90,11 @@ class MyCamera extends Component {
                             />
                             {/* Corregir estilos para que se vea la imagen */}
                             {/* Corregir estilos para que los botones desaparezcan una vez que el usuario aceptó o canceló el preview */}
-                            {this.state.subiendoFoto ?  (this.state.fotoSubida ? <Text>Foto Subida!</Text> : <Text>Subiendo foto...</Text> ): <React.Fragment><TouchableOpacity onPress={ () => this.guardarFoto() }>
-                                <Text>Aceptar</Text>
+                            {this.state.subiendoFoto ?  (this.state.fotoSubida ? <Text>Image uploaded!</Text> : <Text>Uploading...</Text> ): <React.Fragment><TouchableOpacity onPress={ () => this.guardarFoto() }>
+                                <Text>Accept</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={ () => this.cancelPreview()} >
-                                <Text>Cancelar</Text>
+                                <Text>Retake</Text>
                             </TouchableOpacity></React.Fragment>}
                             
                         </React.Fragment>
@@ -113,7 +113,7 @@ class MyCamera extends Component {
                             </TouchableOpacity>
                         </React.Fragment>
                     :
-                    <Text style={styles.permisos}>La cámara no tiene permisos!</Text>
+                    <Text style={styles.permisos}>Camera permits are blocked!</Text>
 
                 }
             </View>
@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
         //flex:1,
     },
     permisos:{
-      
-            fontWeight: 'bold',
-            fontSize: 80,
-            color: '#46627f',
-            alignSelf: 'center',
-            textAlign: 'center'
+        backgroundColor: '#ffc4c4',
+        borderRadius: 6,
+        marginTop: 5,
+        color: 'red',
+        width: '100%',
+        textAlign: 'center'
         },
        /*  color: "#990000",
         backgroundColor: "#FF0000",

@@ -85,16 +85,16 @@ class SearchResults extends Component {
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=> (this.searchUsers(text), this.setState({searchText: text.toLowerCase()}))}
-                    placeholder='Search via email or username '
+                    placeholder='Search email or username '
                     keyboardType='default'
                     value={this.state.searchText}>
                 </TextInput>
                 </View>
-
-                {
+                {this.state.searchText === '' ? <Text style={styles.noResults}>Waiting for search </Text>: 
+                
                     this.state.usersFiltrados.length === 0 
                     ?
-                    <Text style={styles.noResults}>NO RESULTS</Text>
+                    <Text style={styles.noResults}>No results</Text>
                     :
                    
                     <FlatList 
@@ -150,11 +150,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     noResults: {
-        fontWeight: 'bold',
-        fontSize: 80,
-        color: '#46627f',
-        alignSelf: 'center',
-        textAlign: 'center'
+        backgroundColor: '#ffc4c4',
+        borderRadius: 6,
+        marginTop: 5,
+        color: 'red',
+        width: '60%',
+        textAlign: 'center',
+        alignSelf: 'center'
     },
 
 })

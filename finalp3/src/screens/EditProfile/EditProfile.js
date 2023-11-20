@@ -10,7 +10,9 @@ class EditProfile extends Component {
       usuario: this.props.route.params.userData[0],
       fotoUrl: this.props.route.params.userData[0].data.profilePicture,
       newBio: this.props.route.params.userData[0].data.bio,
-      newUsername: this.props.route.params.userData[0].data.username
+      newUsername: '',
+      newBio: '',
+      error: false
     };
   }
   componentDidMount() {
@@ -24,19 +26,23 @@ class EditProfile extends Component {
   
 
   editUser(newUsername, newBio, newPicture) {
-    
+    if (this.state.newUsername == '' || this.state.newUsername ==''){
+    this.setState({
+      error: true
+    })} else {
     db.collection('users').doc(this.state.usuario.id).update({
         bio: newBio,
         username: newUsername,
         profilePicture: newPicture
     })
         .then(res => {
-            this.setState({
+          this.props.navigation.navigate('Profile')  
+          this.setState({
                 
             })
         })
         .catch(e => console.log(e))
-  }
+  }}
 
   traerUrlDeFoto(url) {
     this.setState({
@@ -51,53 +57,56 @@ class EditProfile extends Component {
           <View style={styles.firstBox}>
 
             {/* FOTO DE PERFIL */}
-            <Text >Nueva foto de Perfil</Text>
+            <Text >New photo</Text>
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
            {/* USERNAME */}
-           <Text >Nombre de usuario</Text>
+           <Text >Username</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
                 this.setState({ newUsername: text });
               }}
               blurOnSubmit={true}
-              placeholder="new username"
+              placeholder="New username"
               keyboardType="default"
-              value={this.state.usuario.data.username}
+              value={this.state.newUsername}
             />
-            <Text >Biografía</Text>
+            <Text >Bio</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
                 this.setState({ newBio: text });
               }}
               blurOnSubmit={true}
-              placeholder="bio"
+              placeholder="Bio"
               keyboardType="default"
-              value={this.state.usuario.data.bio}
+              value={this.state.newBio}
             />
-            <Text >Verifique que su foto se haya subido correctamente antes de clickear el boton</Text>
+            <Text>Wait for photo upload to save changes.</Text>
+            {this.state.newUsername == '' || this.state.newUsername =='' ? <Text style={styles.error}>Please fill out all the fields.</Text> : 
             <TouchableOpacity
-              style={styles.button}
-              onPress={() =>
-                this.editUser(
-                  this.state.newUsername,
-                  this.state.newBio,
-                  this.state.fotoUrl
-                )
-              }
-            >
-              <Text style={styles.textButton}>Edit</Text>
-            </TouchableOpacity>
+            style={styles.button}
+            onPress={() =>
+              this.editUser(
+                this.state.newUsername,
+                this.state.newBio,
+                this.state.fotoUrl
+              )
+            }
+          >
+          
+          <Text style={styles.textButton}>Edit</Text>
+          </TouchableOpacity>}
+            
           </View>
         </View>
 
         <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Profile')}>
-                    <Text style={styles.textButton}>Back</Text>{/* ver si existe styles Text button, lo saque de profile */}
+                    <Text style={styles.textButton}>Cancel</Text>{/* ver si existe styles Text button, lo saque de profile */}
                 </TouchableOpacity>
         <Text style={styles.footerText}>
           Esquivel - García Devesa - Manoukian
@@ -115,7 +124,15 @@ const styles = StyleSheet.create({
   },
 
   //PANTALLA CON FORM
-
+  error: {
+    backgroundColor: '#ffc4c4',
+    borderRadius: 6,
+    marginTop: 5,
+    color: 'red',
+    width: '100%',
+    textAlign: 'center',
+    marginVertical: 15
+  },
   right: {
     flex: 1,
     justifyContent: "center",
@@ -188,7 +205,8 @@ const styles = StyleSheet.create({
 
   button: {
     height: 37.6,
-    width: 268.4,
+    width: 90,
+    marginLeft: 20,
     backgroundColor: "#46627f",
     paddingHorizontal: 10,
     paddingVertical: 6,

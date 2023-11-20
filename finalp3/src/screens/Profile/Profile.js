@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-import {db, auth} from '../../firebase/config';
+import { db, auth } from '../../firebase/config';
 import Post from '../../components/Post/Post';
-import {Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView, Alert} from 'react-native';
+import { Image, TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, ScrollView, Alert } from 'react-native';
 
 
 
 class Profile extends Component {
-    constructor(){
+    constructor() {
         super()
-        this.state={
+        this.state = {
             users: [],
             listaPost: []
-        }   
+        }
     }
-    componentDidMount(){
+    componentDidMount() {
         console.log("En profile")
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
-            docs =>{
+            docs => {
                 let users = [];
-                docs.forEach( doc => {
+                docs.forEach(doc => {
                     users.push({
-                       id: doc.id,
-                       data: doc.data()
+                        id: doc.id,
+                        data: doc.data()
                     })
-                this.setState({
-                    users: users
-                })
+                    this.setState({
+                        users: users
+                    })
                 })
             }
         )
@@ -33,7 +33,7 @@ class Profile extends Component {
             posteos => {
                 let postsAMostrar = [];
 
-                posteos.forEach( unPost => {
+                posteos.forEach(unPost => {
                     postsAMostrar.push(
                         {
                             id: unPost.id,
@@ -49,96 +49,87 @@ class Profile extends Component {
         )
     }
 
-
-
-   
-     deleteAccount(userId){
+    deleteAccount(userId) {
 
         console.log("En deleteAccount")
         db.collection('users').doc(userId).delete()
-      .then(() => {
-        console.log("usuario eliminado")
-        this.props.navigation.navigate('Register')
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+            .then(() => {
+                console.log("usuario eliminado")
+                auth.currentUser.delete()
+                auth.signOut()
+                this.props.navigation.navigate('Register')
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
-     
 
-
-
-
-
-
-
-
-
-    logout(){
+    logout() {
         auth.signOut()
         this.props.navigation.navigate('Login')
     }
 
-    render(){
+    render() {
         console.log(auth.currentUser.email);
-        return(
+        return (
             <ScrollView>
                 <Text style={styles.screenTitle}>My Profile</Text>
-               
-                <FlatList 
-                        data= {this.state.users}
-                        keyExtractor={ user => user.id }
-                        renderItem={ ({item}) => <View>
-                            <Text>Username: {item.data.username}</Text>
-                            <Text>Bio: {item.data.bio}</Text>
-                            
-                            <Image
-                                style={styles.image}
-                                source={item.data.profilePicture}
-                                resizeMode="contain"/>
-                            
-                        </View>
-                        }
-                        style={styles.datosPerfil}
-                    />
-                
-                <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
+
+                <FlatList
+                    data={this.state.users}
+                    keyExtractor={user => user.id}
+                    renderItem={({ item }) => <View>
+                        <Text>Username: {item.data.username}</Text>
+                        <Text>Bio: {item.data.bio}</Text>
+
+                        <Image
+                            style={styles.image}
+                            source={item.data.profilePicture}
+                            resizeMode="contain" />
+
+                    </View>
+                    }
+                    style={styles.datosPerfil}
+                />
+
+                <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
                     <Text style={styles.textButton}>Log out</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=> this.props.navigation.navigate('EditProfile', { userData: this.state.users,navigation: this.props.navigation.navigate })}>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('EditProfile', { userData: this.state.users, navigation: this.props.navigation.navigate })}>
                     <Text style={styles.textButton}>Edit</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => this.deleteAccount()}>
-                 <Text style={styles.textButton}>Delete account</Text>
+                    <Text style={styles.textButton}>Delete account</Text>
                 </TouchableOpacity>
-                        
-              
-                    
+
+
+
                 <Text style={styles.screenTitle}>My Posts</Text>
-                
+
                 {
-                    this.state.listaPost.length === 0 
-                    ?
-                    <Image
-                        style={styles.image}
-                        source = {require('/assets/spinning-loading.gif')}
-                        resizeMode= "center"
-                    />
-                    :
-                   
-                    <FlatList 
-                        data= {this.state.listaPost}
-                        keyExtractor={ unPost => unPost.id }
-                        renderItem={ ({item}) => <Post infoPost = { item } navigate={this.props.navigation.navigate}/> }
-                        style= {styles.listaPosts}
-                    />
-                    
+                    this.state.listaPost.length === 0
+                        ?
+                        <Image
+                            style={styles.image}
+                            source={require('/assets/spinning-loading.gif')}
+                            resizeMode="center"
+                        />
+                        :
+
+                        <FlatList
+                            data={this.state.listaPost}
+                            keyExtractor={unPost => unPost.id}
+                            renderItem={({ item }) => <Post infoPost={item} navigate={this.props.navigation.navigate} />}
+                            style={styles.listaPosts}
+                        />
+
                 }
-                
+
             </ScrollView>
-            
-        )}
-        }
+
+        )
+    }
+}
 
 const styles = StyleSheet.create({
     //CONTENEDOR GENERAL
@@ -151,15 +142,15 @@ const styles = StyleSheet.create({
     image: {
         height: 200
     },
-   
-    datosPerfil:{
+
+    datosPerfil: {
         backgroundColor: '#ffffff',
         borderRadius: 6,
         marginHorizontal: 20,
         padding: 5,
         marginVertical: 5,
     },
-    mainContainer:{
+    mainContainer: {
         flex: 1,
         backgroundColor: '#ffffff',
         borderRadius: 6,
@@ -169,26 +160,27 @@ const styles = StyleSheet.create({
         height: 100
     },
     image: {
-        width: 300, 
+        width: 300,
         height: 150,
     },
-    button:{
+    button: {
         alignSelf: 'flex-end',
-        height:30,
+        height: 30,
         width: 150,
-        backgroundColor:'#46627f',
+        backgroundColor: '#46627f',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
-        borderRadius:4, 
-        borderWidth:1,
+        borderRadius: 4,
+        borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#46627f',
         marginTop: 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 20
     },
-    textButton:{
+    textButton: {
         color: '#fff',
         textAlign: 'center',
         fontSize: 15,
